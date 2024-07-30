@@ -1,4 +1,5 @@
 
+import Detail from "../pages/Detail.jsx";
 import Home from "../pages/Home.jsx";
 import Layout from "../pages/Layout.jsx";
 
@@ -10,6 +11,10 @@ export const routes = [
       {
         path:"/",
         element:<Home />
+      },
+      {
+        path:"/detail",
+        element:<Detail />
       }
     ]
   },

@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import ArrowLeft from "./../assets/ArrowLeft.svg";
-import cart from "./../assets/cart.svg";
-import SwapRight from "./../assets/SwapRight.svg";
-import DatePicker from "./components/date/DatePicker";
-import TicketList from "./components/ticketList/TicketList";
-import Moon from "./../assets/Moon.svg";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ArrowLeft from './../assets/ArrowLeft.svg';
 import Sun from "./../assets/bigSun.svg";
+import cart from './../assets/cart.svg';
+import Moon from "./../assets/Moon.svg";
+import SwapRight from './../assets/SwapRight.svg';
+import DatePicker from "./components/date/DatePicker";
 
 export default function Home() {
-  const [ticks, setTicks] = useState([]);
+  const navigate = useNavigate();
+  const [ticks,setTicks] = useState([]);
 
   useEffect(() => {
     const fetchTicks = () => {
@@ -47,9 +48,10 @@ export default function Home() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col w-full ">
-        <div className="w-full bg-white px-6 py-5">
-          <div className="flex flex-col gap-y-3">
+      
+      <div className="flex flex-col w-full">
+        <div className='w-full bg-white px-6 py-5'>
+          <div className='flex flex-col gap-y-3'>
             <div className="text-xl flex gap-x-4 gap-y-2">
               <img src={ArrowLeft} alt="ArrowLeft" />
               Back
@@ -111,11 +113,11 @@ export default function Home() {
             <div>Total</div>
             <div className="text-3xl font-medium">HK$0</div>
           </div>
-
-          <div className="mt-5 text-white flex justify-between gap-x-5">
-            <button className="flex-1 bg-[#7fb7db]">Add to Cart</button>
-            <button className="flex-1 bg-[#00558c]">Check Out</button>
-          </div>
+         
+          <div className='mt-5 text-white flex justify-between gap-x-5'>
+          <button className='flex-1 bg-[#7fb7db]'>Add to Cart</button>
+          <button className="flex-1 bg-[#00558c]" onClick={()=> navigate('/detail')}>Check Out</button>
+        </div>
         </div>
       </div>
 
