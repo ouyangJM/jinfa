@@ -1,5 +1,6 @@
 import DatePicker from "./components/date/DatePicker"
 import { useEffect, useState } from 'react';
+import TicketList from "./components/ticketList/TicketList";
 export default function Home() {
   const [ticks,setTicks] = useState([])
 
@@ -47,6 +48,7 @@ export default function Home() {
 
       </div>
         <DatePicker></DatePicker>
+        <TicketList></TicketList>
     </div>
   )
 }
