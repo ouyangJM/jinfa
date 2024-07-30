@@ -19,6 +19,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    indent: "error",
     "prettier/prettier": "error",
   },
   eslintConfigPrettier
