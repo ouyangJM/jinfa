@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
+import ArrowLeft from './../../../assets/ArrowLeft.svg';
+import ArrowRight from './../../../assets/ArrowRight.svg';
 
-interface DatePickerProps {
-  date: String;
-  dayOfWeek: String;
-}
+// interface DatePickerProps {
+//   date: String;
+//   dayOfWeek: String;
+// }
 
 const DatePicker = (props) => {
   const { clickDate, numMonths = 2, showItemNum = 10 } = props;
-  const [dates, setDates] = useState<DatePickerProps[]>([]);
-  const [showDate, setShowDate] = useState<DatePickerProps[]>([]);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isMax, setIsMax] = useState<boolean>(false);
+  const [dates, setDates] = useState([]);
+  const [showDate, setShowDate] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMax, setIsMax] = useState(false);
 
   // 假设我们要获取未来3个月的日期
   useEffect(() => {
     const currentDate = new Date();
-    const futureDates: DatePickerProps[] = [];
+    const futureDates = [];
 
     // 循环遍历未来几个月的每一天
     for (let m = 0; m < numMonths; m++) {
@@ -72,21 +74,21 @@ const DatePicker = (props) => {
   };
 
   return (
-    <div className="flex justify-left items-center px-10  text-[#00558C] text-base bg-[#F1F2F5]">
+    <div className="flex justify-left items-center text-[#00558C] text-base bg-[#F1F2F5]">
       <div
-        className="border-2 cursor-pointer border-black p-2 w-20 text-center"
+        className="p-3 w-10 bg-white flex items-center justify-center shadow-sm mr-1"
         onClick={() => {
           clickLeft();
         }}
       >
-        左箭头
+        <img src={ArrowLeft} alt="ArrowLeft" />
       </div>
-      <div className=" flex">
+      <div className="flex">
         {showDate.map((item, index) => {
           return (
             <div
               key={index}
-              className="m-1 px-3 py-2 bg-white flex flex-col justify-center items-center cursor-pointer w-20"
+              className="m-1 px-3 py-2 bg-white flex flex-col justify-center items-center cursor-pointer w-20 shadow-sm"
               onClick={() => {
                 clickDate(item);
               }}
@@ -98,12 +100,12 @@ const DatePicker = (props) => {
         })}
       </div>
       <div
-        className="border-2 cursor-pointer border-black p-2 w-20 text-center"
+        className="p-3 w-10 flex items-center justify-center bg-white shadow-sm ml-1"
         onClick={() => {
           clickRight();
         }}
       >
-        右箭头
+        <img src={ArrowRight} alt="ArrowRight" />
       </div>
     </div>
   );
