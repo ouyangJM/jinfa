@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import TicketList from "./components/ticketList/TicketList";
 import ArrowLeft from './../assets/ArrowLeft.svg';
+import cart from './../assets/cart.svg';
 import SwapRight from './../assets/SwapRight.svg';
 import DatePicker from "./components/date/DatePicker";
+import TicketList from "./components/ticketList/TicketList";
 
 export default function Home() {
   const [ticks,setTicks] = useState([])
@@ -49,12 +50,35 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </div>
 
+      <div className='flex gap-x-5 mt-4 items-start'>
+        <div>
+          <DatePicker />
+          <TicketList></TicketList>
+        </div>
+        
+
+        <div className='flex-1 flex-col'>
+          <div className='border-b-2 border-gray-300 pt-4 pb-2 px-6 text-2xl font-medium bg-white'>Departure</div>
+          <div className='flex justify-between items-center py-4 px-6 text-2xl bg-white'>
+            <div>Total</div>
+            <div className="text-3xl font-medium">HK$0</div>
+          </div>
+         
+          <div className='mt-5 text-white flex justify-between gap-x-5'>
+          <button className='flex-1 bg-[#7fb7db]'>Add to Cart</button>
+          <button className="flex-1 bg-[#00558c]">Check Out</button>
+        </div>
+        </div>
       </div>
-      <div className='flex gap-x-2 mt-4'>
-        <DatePicker></DatePicker>
-        <TicketList></TicketList>
-      </div>
+
+      <div className='fixed right-0'>
+          <div className='relative'>
+            <img src={cart} alt='cart' />
+            <div className='absolute -left-3 -top-3 w-6 h-6 rounded-full bg-red-600 flex items-center justify-center text-white'>0</div>
+          </div>
+        </div>
     </div>
   )
 }
