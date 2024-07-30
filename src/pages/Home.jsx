@@ -14,12 +14,12 @@ export default function Home() {
     const fetchTicks = () => {
       const data = JSON.stringify({
         direction: "Return",
-        date: "2024-07-31 00:00:00",
+        date: "2024-07-30 00:00:00",
       });
       setTicks(data);
 
       const xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
+      // xhr.withCredentials = true;
       xhr.addEventListener("readystatechange", function () {
         if (xhr.readyState === 4) {
           console.log(xhr.responseText);
@@ -32,7 +32,7 @@ export default function Home() {
 
     fetchTicks();
   }, []);
-  console.log(ticks);
+  console.log('---',ticks);
   const [checkedList, setCheckedList] = useState([]);
   const chooseTicket = (e) => {
     const id = e.id;

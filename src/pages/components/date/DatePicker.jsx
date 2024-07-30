@@ -164,7 +164,7 @@ const DatePicker = (props) => {
     //   let daysInMonth = new Date(year, month + 1, 0).getDate();
 
     for (let d = 0; d < numDays; d++) {
-      const dayOfWeek = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][
+      const dayOfWeek = ["SUN", "MON", "THE", "WED", "THU", "FRI", "SAT"][
         currentDate.getDay()
       ];
 
