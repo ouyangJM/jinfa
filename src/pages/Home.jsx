@@ -1,6 +1,9 @@
-import DatePicker from "./components/date/DatePicker"
 import { useEffect, useState } from 'react';
 import TicketList from "./components/ticketList/TicketList";
+import ArrowLeft from './../assets/ArrowLeft.svg';
+import SwapRight from './../assets/SwapRight.svg';
+import DatePicker from "./components/date/DatePicker";
+
 export default function Home() {
   const [ticks,setTicks] = useState([])
 
@@ -26,7 +29,7 @@ export default function Home() {
 
     fetchTicks()
   },[])
-  console.log(ticks)
+  console.log(ticks);
   
   return (
     <div className="w-full">
@@ -35,20 +38,23 @@ export default function Home() {
         <div className='w-full bg-white px-6 py-5'>
           <div className='flex flex-col gap-y-3'>
             <div className="text-xl flex gap-x-4 gap-y-2">
-              {/* <img src={} alt='' /> */}
+              <img src={ArrowLeft} alt='ArrowLeft' />
               Back
             </div>
             <div className='text-sm'>Select outbound sailing：</div>
-            <div className='flex gap-y-2 gap-x-3 text-xl'>
+            <div className='flex gap-y-2 gap-x-3 text-xl items-center'>
               <div>Hong Kong Macau Ferry Terminal</div>
+              <img src={SwapRight} alt='SwapRight'/>
               <div>Macau Taipa Ferry Terminal</div>
             </div>
           </div>
         </div>
 
       </div>
+      <div className='flex gap-x-2 mt-4'>
         <DatePicker></DatePicker>
         <TicketList></TicketList>
+      </div>
     </div>
   )
 }

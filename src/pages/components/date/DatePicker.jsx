@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-interface DatePickerProps {
-  date: String;
-  dayOfWeek: String;
-}
-
 const DatePicker = (props) => {
   const { clickDate, numDays = 60, showItemNum = 10 } = props;
-  const [dates, setDates] = useState<DatePickerProps[]>([]);
-  const [showDate, setShowDate] = useState<DatePickerProps[]>([]);
-  const [clickIndex, setClickIndex] = useState<number>(0);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isMax, setIsMax] = useState<boolean>(false);
+  const [dates, setDates] = useState([]);
+  const [showDate, setShowDate] = useState([]);
+  const [clickIndex, setClickIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMax, setIsMax] = useState(false);
 
   // 假设我们要获取未来3个月的日期
   useEffect(() => {
     const currentDate = new Date();
-    const futureDates: DatePickerProps[] = [];
+    const futureDates = [];
 
     // 循环遍历未来几个月的每一天
     // for (let m = 0; m < numMonths; m++) {
