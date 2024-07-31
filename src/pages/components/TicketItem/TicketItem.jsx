@@ -2,7 +2,7 @@ import React from 'react'
 import SwapRight from './../../../assets/SwapRight.svg'
 import smallSun from './../../../assets/smallSun.svg'
 
-export default function TicketItem({data,isFirst}) {
+export default function TicketItem({data,isFirst,deleteTicket}) {
   return (
     <div>
       {!isFirst && < div className='my-8'>
@@ -16,32 +16,32 @@ export default function TicketItem({data,isFirst}) {
           <div className='flex items-center gap-2'>
             <div className='flex flex-col items-center'>
                 <p className="text-xl leading-7 font-medium">{data.from}</p>
-                <p className="leading-5 text-xs">Macau Ferry Terminal</p>
+                <p className="leading-5 text-xs">{data.fromTerminal}</p>
             </div>
             <img src={SwapRight} alt='SwapRight' />
             <div className='flex flex-col items-center'>
                 <p className="text-xl leading-7 font-medium">{data.to}</p>
-                <p className="leading-5 text-xs">Taipa Ferry Terminal</p>
+                <p className="leading-5 text-xs">{data.toTerminal}</p>
 
             </div>
           </div>
           <div className='flex gap-x-2 text-sm leading-4'>
-            {data.date}
+            {data.date} {data.dayOfWeek}
             <img src={smallSun} alt="smallSun" />
-            {data.time}
+            {data.startTime.split(' ')[1]}
             </div>
         </div>
 
         <div className='flex flex-col justify-center'>
-          <div className='text-xs text-[#333]'>{data.class} Class</div>
-          <div className="text-base">Adult HK${data.money} <span className='text-[#00558C]'>x1</span></div>
+          <div className='text-xs text-[#333]'>{data.seatType}</div>
+          <div className="text-base">Adult HK${data.auditPrice} <span className='text-[#00558C]'>x{data.count}</span></div>
         </div>
 
         <div className='text-[#00558C] text-base leading-6 font-bold'>
           Add Promotion code
         </div>
 
-        <div className='text-[#00558C] text-base leading-6 font-bold'>
+        <div className='text-[#00558C] text-base leading-6 font-bold cursor-pointer' onClick={()=>{deleteTicket(data.newId)}}>
           Delete
         </div>
       </div>

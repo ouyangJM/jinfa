@@ -11,6 +11,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [ticks, setTicks] = useState([]);
   const [cartList, setCartList] = useState(JSON.parse(localStorage.getItem("cartList")) || []);
+  const [cartCount, setCartCount] = useState(0);
 
   const [ticketList, setTicketList] = useState([]);
   const fetchTicks = (newDate) => {
@@ -34,6 +35,19 @@ export default function Home() {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(data);
   };
+  useEffect(()=>{
+      const newCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+      let newCount = 0
+      newCartList.forEach((item) => {
+        if (item.count) {
+          newCount += item.count;
+        }else{
+          newCount += 1
+        }      
+      })
+      console.log('-useeffect', newCartList, newCount);
+      setCartCount(newCount)
+  },[])
 
   const [checkedList, setCheckedList] = useState();
   const chooseTicket = (e) => {
@@ -114,6 +128,7 @@ export default function Home() {
               className="flex-1 bg-[#7fb7db]"
               onClick={() => {
                 if(!checkedList) return
+                setCartCount(cartCount + 1);
                 setCartList([...cartList, checkedList]);
               }}
             >
@@ -136,7 +151,7 @@ export default function Home() {
         <div className="relative">
           <img src={cart} alt="cart" />
           <div className="absolute -left-3 -top-3 w-6 h-6 rounded-full bg-red-600 flex items-center justify-center text-white">
-            {cartList.length}
+            {cartCount}
           </div>
         </div>
       </div>
