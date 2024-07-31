@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ArrowLeft from "./../assets/ArrowLeft.svg";
 import Sun from "./../assets/bigSun.svg";
@@ -147,7 +147,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="fixed right-0" style={{ top: 300 }}>
+      <div className="fixed right-0" style={{ top: 300 }} onClick={()=> navigate("/detail")}>
         <div className="relative">
           <img src={cart} alt="cart" />
           <div className="absolute -left-3 -top-3 w-6 h-6 rounded-full bg-red-600 flex items-center justify-center text-white">
