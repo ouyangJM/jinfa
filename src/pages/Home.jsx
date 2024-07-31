@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import cart1 from "../assets/cart1.svg";
+import Left from "../assets/Left.svg";
 import ArrowLeft from "./../assets/ArrowLeft.svg";
 import Sun from "./../assets/bigSun.svg";
 import cart from "./../assets/cart.svg";
 import Moon from "./../assets/Moon.svg";
 import SwapRight from "./../assets/SwapRight.svg";
 import DatePicker from "./components/date/DatePicker";
-import cart1 from "../assets/cart1.svg";
-import Left from "../assets/Left.svg";
 import MobileTicketList from "./components/mobileTicketList/MobileTicketList";
 
 export default function Home() {
@@ -201,8 +201,11 @@ export default function Home() {
                 <MobileTicketList ticketList={ticketList}></MobileTicketList>
         </div>
 
+        {/* <ScrollBar /> */}
+
+
         <div className="bg-white py-3 px-5 flex justify-center">
-          <button className="w-full bg-[#00558c] rounded-full text-white font-bold" type="button">
+          <button className="w-full bg-[#00558c] rounded-full text-white font-bold" type="button" onClick={()=> navigate("/detail")}>
             Check out
           </button>
         </div>
