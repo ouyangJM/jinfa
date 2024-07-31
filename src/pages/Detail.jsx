@@ -4,7 +4,6 @@ import CheckboxInput from "./components/CheckboxInput/CheckboxInput";
 import RadioInput from "./components/RadioInput/RadioInput";
 import TextInput from "./components/TextInput/TextInput";
 import TicketItem from "./components/TicketItem/TicketItem";
-import { number } from "prop-types";
 
 const radioList = [
   {
@@ -104,7 +103,7 @@ export default function Detail() {
             <div className="w-2/3">
               <div className="text-[#333] text-base leading-6 font-bold">Contact information</div>
 
-              <div className="w-1/2 mt-3">
+              <div className="lg:w-1/2 w-2/3 mt-3">
                 <div className="flex flex-col gap-y-5">
                   <TextInput name="email" label={"Email address"} placeholder={"Type here"} />
                   <TextInput

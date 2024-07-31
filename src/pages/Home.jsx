@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ArrowLeft from "./../assets/ArrowLeft.svg";
 import Sun from "./../assets/bigSun.svg";
