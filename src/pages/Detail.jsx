@@ -84,6 +84,7 @@ export default function Detail() {
 
     xhr.addEventListener("readystatechange", function () {
       if (this.readyState === 4) {
+        setTotalPrice(JSON.parse(this.responseText).amount);
         console.log("detail", this.responseText);
       }
     });
