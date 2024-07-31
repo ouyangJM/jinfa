@@ -88,7 +88,7 @@ export default function Detail() {
       }
     });
 
-    xhr.open("POST", "http://192.168.112.103:8080/api/applyPromotionCode");
+    xhr.open("POST", "http://192.168.112.210:8080/api/applyPromotionCode");
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.send(params);

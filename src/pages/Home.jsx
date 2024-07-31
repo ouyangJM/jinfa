@@ -8,6 +8,7 @@ import SwapRight from "./../assets/SwapRight.svg";
 import DatePicker from "./components/date/DatePicker";
 import cart1 from "../assets/cart1.svg";
 import Left from "../assets/Left.svg";
+import MobileTicketList from "./components/mobileTicketList/MobileTicketList";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function Home() {
         setTicketList(JSON.parse(xhr.responseText));
       }
     });
-    xhr.open("POST", "http://192.168.112.103:8080/api/listFerryTickets");
+    xhr.open("POST", "http://192.168.112.210:8080/api/listFerryTickets");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(data);
   };
@@ -94,6 +95,7 @@ export default function Home() {
               chooseTicket={chooseTicket}
               checkedList={checkedList}
               chooseDate={fetchTicks}
+              clickItem={checkedList?.id}
             />
           </div>
 
@@ -171,7 +173,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="sm:hidden flex-1 flex flex-col justify-between w-full">
+      <div className="sm:hidden flex-1 flex flex-col justify-between w-full bg-[#F4F8FB]">
         <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
           <img src={Left} alt="left" />
           <div className="text-white font-bold">Outbound</div>
@@ -195,9 +197,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex bg-white px-5 py-3 border-t-[2px]">datePicker</div>
-
-          <div>ticketCard</div>
+          <div className="flex bg-white px-5 py-3 border-t-[2px] ">datePicker</div>
+                <MobileTicketList ticketList={ticketList}></MobileTicketList>
         </div>
 
         <div className="bg-white py-3 px-5 flex justify-center">

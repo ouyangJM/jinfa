@@ -3,7 +3,7 @@ import Moon from "../../../assets/Moon.svg";
 import Sun from "../../../assets/bigSun.svg";
 
 const TicketList = (props) => {
-    const {date,chooseTicket,checkedList,ticketList,clickDate} = props
+    const {date,chooseTicket,ticketList,clickDate} = props
 
   return (
     <div className="flex flex-col w-full">
@@ -33,13 +33,12 @@ const TicketList = (props) => {
         const image = item.timeFlag=== 'NIGHT' ? Moon : Sun;
         const id = `${date}-${item.id}`
         
-        
         return (
           <div key={id}>
             <div className="flex flex-row justify-between items-center w-full bg-[#FAFAFA] py-3 px-2">
               <div className="flex justify-left items-center" style={{ flex: 6 }}>
                 <img src={image} alt="" className="mr-1" />
-                <div>{time}</div>
+                <div>{time.slice(0,5)}</div>
               </div>
               <div className="flex justify-between items-center" style={{ flex: 6 }}>
                 <div className="text-[#00558C]">{item.auditPrice}</div>

@@ -28,7 +28,7 @@ export default function TicketItem({data,isFirst,deleteTicket}) {
           <div className='flex gap-x-2 text-sm leading-4'>
             {data.date} {data.dayOfWeek}
             <img src={smallSun} alt="smallSun" />
-            {data.startTime.split(' ')[1]}
+            {data.startTime.split(' ')[1].slice(0,5)}
             </div>
         </div>
 
