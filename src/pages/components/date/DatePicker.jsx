@@ -4,153 +4,15 @@ import ArrowLeft from "./../../../assets/ArrowLeft.svg";
 import ArrowRight from "./../../../assets/ArrowRight.svg";
 
 const DatePicker = (props) => {
-  const { numDays = 60, showItemNum = 10, chooseTicket, checkedList } = props;
+  const { numDays = 60, showItemNum = 10, chooseTicket, chooseDate,ticketList } = props;
+
   const [dates, setDates] = useState([]);
   const [showDate, setShowDate] = useState([]);
   const [clickIndex, setClickIndex] = useState("");
   const [clickDate, setClickDate] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMax, setIsMax] = useState(false);
-  const ticketList = [
-    {
-      time: "10:00",
-      price: "HK$175",
-      remaining: "Last 2",
-      id: 0,
-    },
-    {
-      time: "10:30",
-      price: "HK$175",
-      remaining: ">5",
-      id: 1,
-    },
-    {
-      time: "12:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 2,
-    },
-    {
-      time: "11:30",
-      price: "HK$175",
-      remaining: ">5",
-      id: 3,
-    },
-    {
-      time: "12:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 4,
-    },
-    {
-      time: "12:30",
-      price: "HK$175",
-      remaining: ">5",
-      id: 5,
-    },
-    {
-      time: "13:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 6,
-    },
-    {
-      time: "13:30",
-      price: "HK$175",
-      remaining: ">5",
-      id: 7,
-    },
-    {
-      time: "14:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 8,
-    },
-    {
-      time: "14:30",
-      price: "HK$175",
-      remaining: ">5",
-      id: 9,
-    },
-    {
-      time: "15:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 10,
-    },
-    {
-      time: "15:30",
-      price: "HK$175",
-      remaining: ">5",
-      id: 11,
-    },
-    {
-      time: "16:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 12,
-    },
-    {
-      time: "17:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 13,
-    },
-    {
-      time: "17:00",
-      price: "HK$175",
-      remaining: ">5",
-      id: 14,
-    },
-    {
-      time: "17:30",
-      price: "HK$175",
-      remaining: ">5",
-      id: 15,
-    },
-    {
-      time: "18:00",
-      price: "HK$220",
-      remaining: ">5",
-      id: 16,
-    },
-    {
-      time: "18:30",
-      price: "HK$220",
-      remaining: ">5",
-      id: 17,
-    },
-    {
-      time: "19:00",
-      price: "HK$220",
-      remaining: ">5",
-      id: 18,
-    },
-    {
-      time: "19:30",
-      price: "HK$220",
-      remaining: ">5",
-      id: 19,
-    },
-    {
-      time: "20:00",
-      price: "HK$220",
-      remaining: ">5",
-      id: 20,
-    },
-    {
-      time: "20:30",
-      price: "HK$220",
-      remaining: ">5",
-      id: 21,
-    },
-    {
-      time: "21:00",
-      price: "HK$220",
-      remaining: ">5",
-      id: 22,
-    },
-  ];
+
 
   // 假设我们要获取未来3个月的日期
   useEffect(() => {
@@ -176,15 +38,15 @@ const DatePicker = (props) => {
 
       // 移动到下一天
       currentDate.setDate(currentDate.getDate() + 1);
+      
     }
-
+    chooseDate(futureDates[0]);
     setShowDate(futureDates.slice(0, showItemNum));
     setClickIndex(futureDates[0].date);
     setClickDate(futureDates[0])
     // 设置状态以重新渲染组件
     setDates(futureDates);
-  }, []); // 空依赖数组表示这个effect只在组件挂载时运行一次
-
+  }, []); 
   const clickLeft = () => {
     if (currentIndex === 0) return;
     setIsMax(false);
@@ -238,11 +100,12 @@ const DatePicker = (props) => {
                 onClick={() => {
                   setClickIndex(item.date);
                   setClickDate(item)
+                  chooseDate(item)
                   // clickDate();
                 }}
               >
-                <div>{item.date}</div>
-                <div>{item.dayOfWeek}</div>
+                <div className="text-sm">{item.date}</div>
+                <div className="text-sm">{item.dayOfWeek}</div>
               </div>
             );
           })}
@@ -256,13 +119,12 @@ const DatePicker = (props) => {
           <img src={ArrowRight} alt="" />
         </div>
       </div>
-      <TicketList
+      {ticketList && <TicketList
         date={clickIndex}
         chooseTicket={(e)=>chooseTicket({...e,})}
-        checkedList={checkedList.map((item) => item.id)}
         ticketList={ticketList}
         clickDate={clickDate}
-      ></TicketList>
+      ></TicketList>}
     </div>
   );
 };
