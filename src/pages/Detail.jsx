@@ -1,7 +1,21 @@
 import { FormikProvider, useFormik } from 'formik';
 import React from 'react';
+import RadioInput from './components/RadioInput/RadioInput';
 import TextInput from './components/TextInput/TextInput';
 import TicketItem from './components/TicketItem/TicketItem';
+
+const radioList = [
+  {
+    id:0,
+    label:"Phone Number",
+    value:0
+  },
+  {
+    id:1,
+    label:"Email address",
+    value:1
+  }
+]
 
 export default function Detail() {
   const data = [
@@ -28,7 +42,8 @@ export default function Detail() {
   const formik = useFormik({
     initialValues:{
       email:"",
-      phone:""
+      phone:"",
+      connectionMethod:0
     },
     validationSchema:null,
     onSubmit:()=>{}
@@ -44,7 +59,7 @@ export default function Detail() {
           }
         </div>
 
-      <div className='w-full bg-white p-5 mt-5'>
+      <div className='w-full bg-white p-5 mt-5 flex'>
         <div className='w-2/3'>
           <div className='text-[#333] text-base leading-6 font-bold'>Contact information</div>
           <div className='w-1/2 mt-3'>
@@ -56,8 +71,11 @@ export default function Detail() {
                 </div>
                 
                 <div className='mt-10'>
-                  <div>Use your mobile number or e-mail address to <span className='text-[#00558C] text-sm leading-6'>connect with your reservation.</span></div>
-                  <div></div>
+                  <RadioInput
+                    label={<div className='text-sm'>Use your mobile number or e-mail address to <span className='text-[#00558C] text-sm leading-6 font-semibold'>connect with your reservation.</span></div>}
+                    radioList={radioList}
+                    name="connectionMethod"
+                  />
                 </div>
 
               </form>
