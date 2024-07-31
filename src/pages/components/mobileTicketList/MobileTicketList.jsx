@@ -3,7 +3,7 @@ import Moon from "../../../assets/Moon.svg";
 import Sun from "../../../assets/bigSun.svg";
 
 const MobileTicketList = (props) => {
-  const { ticketList, date, clickDate, chooseTicket ,clickItem} = props;
+  const { ticketList, date, clickDate, chooseTicket, clickItem } = props;
   const [showDetailId, setShowDetailId] = React.useState("");
   return (
     <div>
@@ -37,32 +37,32 @@ const MobileTicketList = (props) => {
                 />
               </div>
             </div>
-            {showDetailId === item.id && (
-              <div>
-                <div className="w-full bg-[#EBEBEB]" style={{ height: "1px" }}></div>
-                <div className="flex justify-between w-full  px-4 py-3">
-                  <div className="flex flex-col items-center justify-center">
-                    <div className="text-sm">{item.seatType}</div>
-                    <div className="flex">
-                      <div className="mr-2">Adult</div>
-                      <div className="text-[#00558C]">HK${item.auditPrice}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    {!(item.stockText.indexOf(">") > -1) && (
-                      <div className="text-[#FF4D4F] text-sm">{item.stockText}</div>
-                    )}
-                    <input
-                      type="radio"
-                      name="tickets"
-                      onClick={() => {
-                        chooseTicket({ ...item, id, ...clickDate });
-                      }}
-                    />
+            {/* checkbox */}
+            <div style={{ display: showDetailId === item.id ? "block" : "none" }}>
+              <div className="w-full bg-[#EBEBEB]" style={{ height: "1px" }}></div>
+              <div className="flex justify-between w-full  px-4 py-3">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="text-sm">{item.seatType}</div>
+                  <div className="flex">
+                    <div className="mr-2">Adult</div>
+                    <div className="text-[#00558C]">HK${item.auditPrice}</div>
                   </div>
                 </div>
+                <div className="flex items-center">
+                  {!(item.stockText.indexOf(">") > -1) && (
+                    <div className="text-[#FF4D4F] text-sm">{item.stockText}</div>
+                  )}
+                  <input
+                    className="p-5"
+                    type="radio"
+                    name="tickets"
+                    onClick={() => {
+                      chooseTicket({ ...item, id, ...clickDate });
+                    }}
+                  />
+                </div>
               </div>
-            )}
+            </div>
           </div>
         );
       })}
