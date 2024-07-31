@@ -5,6 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      ssm: "390px",
+      sm: "640px",
+      md: "768px",
+      lg: "1060px",
+      xl: "1280px",
+      "1xl": "1380px",
+      "2xl": "1536px",
+      "3xl": "1920px",
+    },
     boxShadow: {
       sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
       DEFAULT: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",

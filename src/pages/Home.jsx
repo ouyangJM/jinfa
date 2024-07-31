@@ -61,8 +61,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex gap-x-5 mt-4 items-start">
-        <div style={{ flex: 2 }}>
+      <div className="flex lg:flex-row flex-col gap-x-5 mt-4 items-start">
+        <div className="lg:flex-[2] w-full">
           <DatePicker
             ticketList={ticketList}
             chooseTicket={chooseTicket}
@@ -71,7 +71,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="flex-1 flex-col">
+        <div className="lg:flex-1 w-full mt-5 lg:mt-0 flex-col">
           <div className="border-b-2 border-gray-300 pt-4 pb-2 px-6 text-2xl font-medium bg-white">
             Departure
           </div>

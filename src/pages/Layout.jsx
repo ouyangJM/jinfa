@@ -5,7 +5,7 @@ import Header from './components/Header/Header'
 
 export default function Layout() {
   return (
-    <div className="w-full min-h-screen flex flex-col justify-between">
+    <div className="w-full min-h-screen flex flex-col justify-between min-w-[780px]">
       <Header />
       <Wrapper>
         <Outlet />
