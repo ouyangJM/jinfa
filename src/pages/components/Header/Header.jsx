@@ -3,7 +3,7 @@ import logo from './../../../assets/xzxzx 1.svg';
 
 export default function Header() {
   return (
-    <div>
+    <div className='sm:block hidden'>
       <div
     className="w-full px-20 py-[15px] flex justify-between items-center bg-[#00558c]">
       <div>
