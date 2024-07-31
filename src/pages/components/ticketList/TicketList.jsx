@@ -37,11 +37,8 @@ const TicketList = (props) => {
         
         
         return (
-          <div>
-            <div
-              key={id}
-              className="flex flex-row justify-between items-center w-full bg-[#FAFAFA] py-3 px-2"
-            >
+          <div key={id}>
+            <div className="flex flex-row justify-between items-center w-full bg-[#FAFAFA] py-3 px-2">
               <div className="flex justify-left items-center" style={{ flex: 6 }}>
                 <img src={image} alt="" className="mr-1" />
                 <div>{item.time}</div>

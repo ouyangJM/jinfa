@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import TicketList from "../ticketList/TicketList";
 import ArrowLeft from "./../../../assets/ArrowLeft.svg";
 import ArrowRight from "./../../../assets/ArrowRight.svg";
-import TicketList from "../ticketList/TicketList";
 
 const DatePicker = (props) => {
   const { numDays = 60, showItemNum = 10, chooseTicket, checkedList } = props;
