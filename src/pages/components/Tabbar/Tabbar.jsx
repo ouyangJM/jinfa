@@ -7,7 +7,7 @@ export default function Tabbar() {
   const navigate = useNavigate();
 
   return (
-    <div className='mt-[1px] w-full grid grid-cols-4 gap-x-[1px] text-center text-white text-sm items-center'>
+    <div className='hidden mt-[1px] w-full sm:grid grid-cols-4 gap-x-[1px] text-center text-white text-sm items-center'>
       <div className={classNames('w-full bg-[#a08a59] py-1 cursor-pointer',location?.pathname === "/" && "text-base font-bold")} onClick={()=> navigate("/")}>Home</div>
       <div className='w-full bg-[#a08a59] py-1'>Special Discount</div>
       <div className='w-full bg-[#a08a59] py-1'>My itinerary</div>
