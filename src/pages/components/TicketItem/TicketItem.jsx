@@ -1,4 +1,5 @@
 import React from 'react'
+import Moon from './../../../assets/Moon.svg'
 import SwapRight from './../../../assets/SwapRight.svg'
 import smallSun from './../../../assets/smallSun.svg'
 
@@ -27,7 +28,7 @@ export default function TicketItem({data,isFirst,deleteTicket}) {
           </div>
           <div className='flex gap-x-2 text-sm leading-4'>
             {data.date} {data.dayOfWeek}
-            <img src={smallSun} alt="smallSun" />
+            <img src={data.timeFlag === "NIGHT"? Moon:smallSun} className='w-4' alt="smallSun" />
             {data.startTime.split(' ')[1].slice(0,5)}
             </div>
         </div>
@@ -37,9 +38,9 @@ export default function TicketItem({data,isFirst,deleteTicket}) {
           <div className="text-base">Adult HK${data.auditPrice} <span className='text-[#00558C]'>x{data.count}</span></div>
         </div>
 
-        <div className='text-[#00558C] text-base leading-6 font-bold'>
+        {/* <div className='text-[#00558C] text-base leading-6 font-bold'>
           Add Promotion code
-        </div>
+        </div> */}
 
         <div className='text-[#00558C] text-base leading-6 font-bold cursor-pointer' onClick={()=>{deleteTicket(data.newId)}}>
           Delete

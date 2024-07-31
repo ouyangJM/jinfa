@@ -29,7 +29,7 @@ export default function Detail() {
   const [discount, setDiscount] = React.useState(1);
 
   useEffect(() => {
-    const getData = JSON.parse(localStorage.getItem("cartList"));
+    const getData = JSON.parse(localStorage.getItem("cartList")) || [];
     let newTotalPrice = 0;
     const newData = Object.values(
       getData.reduce((acc, item) => {
@@ -83,8 +83,9 @@ export default function Detail() {
     xhr.withCredentials = false;
 
     xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        console.log("detail", this.responseText);
+      if (xhr.readyState === 4) {
+        console.log("detail", xhr.responseText);
+        setDiscount(JSON.parse(xhr.responseText));
       }
     });
 
@@ -101,6 +102,8 @@ export default function Detail() {
     console.log("newData", newData);
     // setData(newData);
   };
+
+  console.log(discount)
 
   return (
     <>
@@ -172,19 +175,24 @@ export default function Detail() {
                 <div className="flex flex-col gap-y-2 mt-3">
                   <div className="flex justify-between text-base text-[#333] items-center">
                     <div>Subtotal</div>
-                    <div className="font-bold">HK$175</div>
+                    <div className="font-bold">HK${totalPrice}</div>
                   </div>
                   <div className="flex justify-between text-base text-[#00558C] items-center">
                     <div>Carbon credit:</div>
                     <div className="font-bold">HK$6</div>
                   </div>
-                  <div className="flex justify-between text-base text-[#00558C] items-center">
+                  {discount !== 1 && <>
+                    <div className="flex justify-between text-base text-[#00558C] items-center">
                     <div>Promo code:</div>
                     <div className="font-bold">{formik.values?.promo}</div>
                   </div>
+                  <div className="flex justify-between text-base text-[#00558C] items-center">
+                    <div>Discount:</div>
+                    <div className="font-bold">{discount}</div>
+                  </div></>}
                   <div className="flex justify-between text-[#000] font-bold items-center">
                     <div className="text-2xl">Total:</div>
-                    <div className="text-3xl">HK${totalPrice}</div>
+                    <div className="text-3xl">HK${totalPrice - 6}</div>
                   </div>
 
                   <div className="flex">
@@ -248,7 +256,7 @@ export default function Detail() {
               <div>
                 <div className="text-base font-bold mb-4">Ticket Information</div>
                 <div className="p-3 shadow-lg bg-white rounded-lg">
-                  {data.map((item, index) => {
+                  {data?.map((item, index) => {
                     return (
                       <TicketItem
                         deleteTicket={deleteTicket}
@@ -257,7 +265,7 @@ export default function Detail() {
                         isFirst={index === 0}
                       />
                     );
-                  })}
+                  }) || []}
                 </div>
               </div>
 

@@ -8,7 +8,7 @@ import cart from "./../assets/cart.svg";
 import Moon from "./../assets/Moon.svg";
 import SwapRight from "./../assets/SwapRight.svg";
 import DatePicker from "./components/date/DatePicker";
-import MobileTicketList from "./components/mobileTicketList/MobileTicketList";
+import MobileDatePicker from "./components/date/MobileDatePicker";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -20,7 +20,8 @@ export default function Home() {
   const fetchTicks = (newDate) => {
     const dateParams = `2024-${newDate.date} 00:00:00`;
     const data = JSON.stringify({
-      direction: "Return",
+      from: "Hong Kong",
+      to: "Macau",
       date: dateParams,
     });
     console.log("newDate", data);
@@ -197,15 +198,24 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex bg-white px-5 py-3 border-t-[2px] ">datePicker</div>
-                <MobileTicketList ticketList={ticketList}></MobileTicketList>
+          <div className="flex bg-white px-5 py-3 border-t-[2px] ">
+            <MobileDatePicker
+              ticketList={ticketList}
+              showItemNum={5}
+              chooseTicket={chooseTicket}
+              checkedList={checkedList}
+              chooseDate={fetchTicks}
+              clickItem={checkedList?.id}
+            />
+          </div>
         </div>
 
-        {/* <ScrollBar /> */}
-
-
         <div className="bg-white py-3 px-5 flex justify-center">
-          <button className="w-full bg-[#00558c] rounded-full text-white font-bold" type="button" onClick={()=> navigate("/detail")}>
+          <button
+            className="w-full bg-[#00558c] rounded-full text-white font-bold"
+            type="button"
+            onClick={() => navigate("/detail")}
+          >
             Check out
           </button>
         </div>
