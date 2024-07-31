@@ -42,6 +42,7 @@ export default function Detail() {
   const [data, setData] = React.useState([]);
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [isDelete, setIsDelete] = React.useState(false);
+  const [discount, setDiscount] = React.useState(1);
 
   useEffect(() => {
     const getData = JSON.parse(localStorage.getItem("cartList"));
@@ -50,10 +51,10 @@ export default function Detail() {
       getData.reduce((acc, item) => {
         // 从 item.id 中提取新的 id 部分
         const newId = item.id.split("-")[2];
-        const count = item.count?item.count:1;
+        const count = item.count ? item.count : 1;
         // 创建一个新的项，使用新的 id 和原始的项数据（除了 id），并设置 count 为 1
-        const newItem = { ...item,newId, count };
-        newTotalPrice += Number(newItem.auditPrice)*Number(newItem.count);
+        const newItem = { ...item, newId, count };
+        newTotalPrice += Number(newItem.auditPrice) * Number(newItem.count);
         // 如果累加器（acc）中已存在这个 newId，则更新其 count，否则添加这个新项
         if (acc[newId]) {
           acc[newId].count++;
@@ -67,7 +68,7 @@ export default function Detail() {
     ); // 注意这里的第二个参数是一个空对象 {}
     console.log("-----data", newData);
     setData(newData);
-    setTotalPrice(newTotalPrice)
+    setTotalPrice(newTotalPrice);
   }, [isDelete]);
   const formik = useFormik({
     initialValues: {
@@ -80,20 +81,55 @@ export default function Detail() {
     onSubmit: () => {},
   });
 
-  const deleteTicket = (id)=>{
-    const newData = data.filter(item => item.newId !== id);
+  const getPreferential = () => {
+    if(!formik.values.promo) return
+    const paramsItems = data.map((item) => {
+      return {
+        ticketId: item.newId,
+        quantity: item.count,
+      }
+    })
+    
+    var params = JSON.stringify({
+      promotionCode: "9876",
+      items: paramsItems,
+    });
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        console.log('detail',this.responseText);
+      }
+    });
+
+    xhr.open("POST", "http://192.168.112.103:8080/api/applyPromotionCode");
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send(params);
+  };
+
+  const deleteTicket = (id) => {
+    const newData = data.filter((item) => item.newId !== id);
     setIsDelete(!isDelete);
-    localStorage.setItem('cartList',JSON.stringify(newData));
-    console.log('newData',newData);
+    localStorage.setItem("cartList", JSON.stringify(newData));
+    console.log("newData", newData);
     // setData(newData);
-  
-  }
+  };
 
   return (
     <div className="w-full">
       <div className="flex flex-col bg-white px-6 py-5">
         {data.map((item, index) => {
-          return <TicketItem deleteTicket={deleteTicket} data={item} key={item.id} isFirst={index === 0} />;
+          return (
+            <TicketItem
+              deleteTicket={deleteTicket}
+              data={item}
+              key={item.id}
+              isFirst={index === 0}
+            />
+          );
         })}
       </div>
 
@@ -138,7 +174,9 @@ export default function Detail() {
                   <TextInput label="" name="promo" isOption={true} />
                 </div>
                 <button
-                  onClick={() => {}}
+                  onClick={() => {
+                    getPreferential()
+                  }}
                   className="px-4 text-sm leading-5 bg-[#A08A59] text-white mt-2 rounded-sm"
                 >
                   Apply
@@ -157,7 +195,7 @@ export default function Detail() {
                 </div>
                 <div className="flex justify-between text-base text-[#00558C] items-center">
                   <div>Promo code:</div>
-                  <div className="font-bold">-----</div>
+                  <div className="font-bold">{formik.values?.promo}</div>
                 </div>
                 <div className="flex justify-between text-[#000] font-bold items-center">
                   <div className="text-2xl">Total:</div>
