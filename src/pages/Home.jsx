@@ -12,10 +12,11 @@ import MobileDatePicker from "./components/date/MobileDatePicker";
 
 export default function Home() {
   const navigate = useNavigate();
-  const [ticks, setTicks] = useState([]);
   const [cartList, setCartList] = useState(JSON.parse(localStorage.getItem("cartList")) || []);
   const [cartCount, setCartCount] = useState(0);
+  const [status, setStatus] = useState(0);
   const [totalPrice, setTotalPrice] = useState({ from: 0, to: 0 });
+  
 
   const [flow, setFlow] = useState({
     from: "Hong Kong",
@@ -35,8 +36,6 @@ export default function Home() {
       to: newTo,
       date: dateParams,
     });
-    console.log("newDate", data);
-    setTicks(data);
 
     const xhr = new XMLHttpRequest();
     // xhr.withCredentials = true;
@@ -269,53 +268,105 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="sm:hidden flex-1 flex flex-col justify-between w-full bg-[#F4F8FB]">
-        <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
-          <img src={Left} alt="left" />
-          <div className="text-white font-bold">Outbound</div>
-          <img src={cart1} alt="cart" />
-        </div>
 
-        <div className="flex-1 flex flex-col">
-          <div className="flex bg-white px-5 py-3">
-            <div className="flex justify-between items-center bg-white">
-              <div className="flex flex-col justify-center items-center pl-15 text-center">
-                <div className="text-xl">{flow.from}</div>
-                <div className="text-sm">{flow.fromTerminal}</div>
+      <div className="sm:hidden flex-1 block w-full">
+        {status === 0 && <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
+          <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
+            <img src={Left} alt="left" />
+            <div className="text-white font-bold">Outbound</div>
+            <img src={cart1} alt="cart" />
+          </div>
+
+          <div className="flex-1 flex flex-col">
+            <div className="flex bg-white px-5 py-3">
+              <div className="flex justify-between items-center bg-white">
+                <div className="flex flex-col justify-center items-center pl-15 text-center">
+                  <div className="text-xl">{flow.from}</div>
+                  <div className="text-sm">{flow.fromTerminal}</div>
+                </div>
+                <div className="px-5">
+                  <img src={SwapRight} alt="SwapRight" />
+                </div>
+                <div className="flex flex-col justify-center items-center pr-15 text-center">
+                  <div className="text-xl">{flow.to}</div>
+                  <div className="text-sm">{flow.toTerminal}</div>
+                </div>
               </div>
-              <div className="px-5">
-                <img src={SwapRight} alt="SwapRight" />
-              </div>
-              <div className="flex flex-col justify-center items-center pr-15 text-center">
-                <div className="text-xl">{flow.to}</div>
-                <div className="text-sm">{flow.toTerminal}</div>
-              </div>
+            </div>
+
+            <div className="flex pb-3 border-t-[2px]">
+              <MobileDatePicker
+                ticketList={ticketList}
+                showItemNum={5}
+                chooseTicket={chooseTicket}
+                checkedList={checkedList}
+                chooseDate={fetchTicks}
+                clickItem={checkedList?.id}
+              />
             </div>
           </div>
 
-          <div className="flex pb-3 border-t-[2px]">
-            <MobileDatePicker
-              ticketList={ticketList}
-              showItemNum={5}
-              chooseTicket={chooseTicket}
-              checkedList={checkedList}
-              chooseDate={fetchTicks}
-              clickItem={checkedList?.id}
-            />
+          <div className="bg-white py-3 px-5 flex justify-center">
+            <button
+              className="w-full bg-[#00558c] rounded-full text-white font-bold"
+              type="button"
+              onClick={() => {
+                // checkOut();
+                setStatus(1)
+              }}
+            >
+              Next
+            </button>
           </div>
-        </div>
+        </div>}
+        {status === 1 && <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
+          <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
+            <img src={Left} alt="left" onClick={() => setStatus(0)} />
+            <div className="text-white font-bold">Return</div>
+            <img src={cart1} alt="cart" />
+          </div>
 
-        <div className="bg-white py-3 px-5 flex justify-center">
-          <button
-            className="w-full bg-[#00558c] rounded-full text-white font-bold"
-            type="button"
-            onClick={() => {
-              checkOut();
-            }}
-          >
-            Check out
-          </button>
-        </div>
+          <div className="flex-1 flex flex-col">
+            <div className="flex bg-white px-5 py-3">
+              <div className="flex justify-between items-center bg-white">
+                <div className="flex flex-col justify-center items-center pl-15 text-center">
+                  <div className="text-xl">{flow.to}</div>
+                  <div className="text-sm">{flow.toTerminal}</div>
+                </div>
+                <div className="px-5">
+                  <img src={SwapRight} alt="SwapRight" />
+                </div>
+                <div className="flex flex-col justify-center items-center pr-15 text-center">
+                  <div className="text-xl">{flow.from}</div>
+                  <div className="text-sm">{flow.fromTerminal}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex pb-3 border-t-[2px]">
+              <MobileDatePicker
+                ticketList={ticketList}
+                showItemNum={5}
+                chooseTicket={chooseTicket}
+                checkedList={checkedList}
+                chooseDate={fetchTicks}
+                clickItem={checkedList?.id}
+              />
+            </div>
+          </div>
+
+          <div className="bg-white py-3 px-5 flex justify-center">
+            <button
+              className="w-full bg-[#00558c] rounded-full text-white font-bold"
+              type="button"
+              onClick={() => {
+                checkOut();
+              }}
+            >
+              Check out
+            </button>
+          </div>
+        </div>}
       </div>
     </>
   );

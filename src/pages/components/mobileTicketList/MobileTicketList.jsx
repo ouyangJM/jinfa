@@ -8,6 +8,8 @@ import down from "../../../assets/down.svg";
 const MobileTicketList = (props) => {
   const { ticketList, date, clickDate, chooseTicket, clickItem } = props;
   const [showDetailId, setShowDetailId] = React.useState("");
+  const [selectId, setSelectId] = React.useState("");
+
   return (
     <div>
       {ticketList.map((item, index) => {
@@ -39,7 +41,7 @@ const MobileTicketList = (props) => {
               </div>
             </div>
             {/* checkbox */}
-            <div style={{ display: showDetailId === item.id ? "block" : "none" }}>
+            <div style={{ display: (showDetailId === item.id || selectId === item.id) ? "block" : "none" }}>
               <div className="w-full bg-[#EBEBEB]" style={{ height: "1px" }}></div>
               <div className="flex justify-between w-full  px-5 py-4">
                 <div className="flex flex-col items-start justify-center">
@@ -59,6 +61,7 @@ const MobileTicketList = (props) => {
                     name="tickets"
                     onClick={() => {
                       chooseTicket({ ...item, id, ...clickDate });
+                      setSelectId(item.id)
                     }}
                   />
                 </div>

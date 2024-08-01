@@ -26,7 +26,7 @@ export default function Detail() {
   const [data, setData] = React.useState([]);
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [isDelete, setIsDelete] = React.useState(false);
-  const [discount, setDiscount] = React.useState(1);
+  const [discount, setDiscount] = React.useState(0);
 
   useEffect(() => {
     const getData = JSON.parse(localStorage.getItem("cartList")) || [];
@@ -65,7 +65,7 @@ export default function Detail() {
     onSubmit: () => {},
   });
 
-  const getPreferential = () => {
+  const getPreferential = (data) => {
     if (!formik.values.promo) return;
     const paramsItems = data.map((item) => {
       return {
@@ -84,9 +84,8 @@ export default function Detail() {
 
     xhr.addEventListener("readystatechange", function () {
       if (xhr.readyState === 4) {
-        setTotalPrice(JSON.parse(xhr.responseText).amount);
-        console.log("detail", xhr.responseText);
-        setDiscount(JSON.parse(xhr.responseText));
+        // setTotalPrice(JSON.parse(xhr.responseText).amount);
+        setDiscount(JSON.parse(xhr.responseText).discount);
       }
     });
 
@@ -99,12 +98,10 @@ export default function Detail() {
   const deleteTicket = (id) => {
     const newData = data.filter((item) => item.newId !== id);
     setIsDelete(!isDelete);
+    getPreferential(newData)
     localStorage.setItem("cartList", JSON.stringify(newData));
-    console.log("newData", newData);
     // setData(newData);
   };
-
-  console.log(discount)
 
   return (
     <>
@@ -164,7 +161,7 @@ export default function Detail() {
                   </div>
                   <button
                     onClick={() => {
-                      getPreferential();
+                      getPreferential(data);
                     }}
                     className="px-4 text-sm leading-5 bg-[#A08A59] text-white mt-2 rounded-sm"
                   >
@@ -178,22 +175,22 @@ export default function Detail() {
                     <div>Subtotal</div>
                     <div className="font-bold">HK${totalPrice}</div>
                   </div>
-                  <div className="flex justify-between text-base text-[#00558C] items-center">
+                  {data.length > 0 && <><div className="flex justify-between text-base text-[#00558C] items-center">
                     <div>Carbon credit:</div>
                     <div className="font-bold">HK$6</div>
                   </div>
-                  {discount !== 1 && <>
+                  {discount !== 0 && <>
                     <div className="flex justify-between text-base text-[#00558C] items-center">
                     <div>Promo code:</div>
                     <div className="font-bold">{formik.values?.promo}</div>
                   </div>
                   <div className="flex justify-between text-base text-[#00558C] items-center">
                     <div>Discount:</div>
-                    <div className="font-bold">{discount}</div>
-                  </div></>}
+                    <div className="font-bold">HK${discount}</div>
+                  </div></>}</>}
                   <div className="flex justify-between text-[#000] font-bold items-center">
                     <div className="text-2xl">Total:</div>
-                    <div className="text-3xl">HK${totalPrice}</div>
+                    <div className="text-3xl">HK${totalPrice - 6 -discount > 0 ?(totalPrice - 6 -discount):0}</div>
                   </div>
 
                   <div className="flex">
@@ -244,7 +241,7 @@ export default function Detail() {
                     </div>
                     <button
                       onClick={() => {
-                        getPreferential();
+                        getPreferential(data);
                       }}
                       className="px-4 text-sm leading-5 bg-[#A08A59] text-white mt-2 rounded-sm"
                     >
