@@ -3,7 +3,7 @@ import EmblaCarousel from "../EmblaCarousel/EmblaCarousel";
 import MobileTicketList from "../mobileTicketList/MobileTicketList";
 
 const MobileDatePicker = (props) => {
-  const { numDays = 60, showItemNum, chooseTicket, chooseDate, ticketList } = props;
+  const { numDays = 60, showItemNum, chooseTicket, chooseDate, ticketList,status } = props;
 
   const [dates, setDates] = useState([]);
   // const [showDate, setShowDate] = useState([]);
@@ -55,7 +55,7 @@ const MobileDatePicker = (props) => {
       // 移动到下一天
       currentDate.setDate(currentDate.getDate() + 1);
     }
-    chooseDate(futureDates[0]);
+    status !==1 && chooseDate(futureDates[0]);
     // setShowDate(futureDates.slice(0, showItemNum));
     setClickIndex(futureDates[0].date);
     setClickDate(futureDates[0]);

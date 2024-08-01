@@ -59,7 +59,6 @@ export default function Home() {
         newCount += 1;
       }
     });
-    console.log("-useeffect", newCartList, newCount);
     setCartCount(newCount);
   }, []);
 
@@ -317,6 +316,7 @@ export default function Home() {
                   checkedList={checkedList}
                   chooseDate={fetchTicks}
                   clickItem={checkedList?.id}
+                  status={status}
                 />
               </div>
             </div>
@@ -343,7 +343,6 @@ export default function Home() {
                 type="button"
                 disabled={!checkedList}
                 onClick={() => {
-                  addToCart();
                   buyReturnTrip();
                   setStatus(1);
                 }}
@@ -412,6 +411,7 @@ export default function Home() {
                   checkedList={checkedList}
                   chooseDate={fetchTicks}
                   clickItem={checkedList?.id}
+                  status={status}
                 />
               </div>
             </div>

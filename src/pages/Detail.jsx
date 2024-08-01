@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { FormikProvider, useFormik } from "formik";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import * as yup from 'yup';
+import * as yup from "yup";
 import Close from "../assets/Close.svg";
 import CheckboxInput from "./components/CheckboxInput/CheckboxInput";
 import RadioInput from "./components/RadioInput/RadioInput";
@@ -65,15 +65,15 @@ export default function Detail() {
       agreement: true,
     },
     validationSchema: yup.object({
-      email:yup.string().email().required(),
-      phone:yup.mixed().when("connectionMethod",([value]) => {
-        if(value === 0 ){
-          return yup.string().required()
+      email: yup.string().email().required(),
+      phone: yup.mixed().when("connectionMethod", ([value]) => {
+        if (value === 0) {
+          return yup.string().required();
         }
       }),
-      agreement:yup.boolean().test("test true","must agree t&c.",(val)=>{
-        return val
-      },)
+      agreement: yup.boolean().test("test true", "must agree t&c.", (val) => {
+        return val;
+      }),
     }),
     onSubmit: () => {},
   });
@@ -115,6 +115,8 @@ export default function Detail() {
     localStorage.setItem("cartList", JSON.stringify(newData));
     // setData(newData);
   };
+
+  console.log(data);
 
   return (
     <>
@@ -220,7 +222,9 @@ export default function Detail() {
                       label={
                         <p className="text-sm">
                           I agree
-                          <span className="text-base text-[#00558C]">Terms & Conditions</span> and{" "}
+                          <span className="text-base text-[#00558C]">
+                            Terms & Conditions
+                          </span> and{" "}
                           <span className="text-base text-[#00558C]">Privacy Policy</span>
                         </p>
                       }
@@ -233,7 +237,10 @@ export default function Detail() {
 
                   <button
                     type="submit"
-                    className={classNames("w-full rounded-sm text-white text-sm leading-[22px]",data.length < 1 ? "bg-gray-300":"bg-[#00558C] ")}
+                    className={classNames(
+                      "w-full rounded-sm text-white text-sm leading-[22px]",
+                      data.length < 1 ? "bg-gray-300" : "bg-[#00558C] "
+                    )}
                     disabled={data.length < 1}
                   >
                     Pay
@@ -294,20 +301,24 @@ export default function Detail() {
                     <div>subtotal:</div>
                     <div className="text-[#00558C]">HK${totalPrice}</div>
                   </div>
-                  <div className="flex justify-between mt-4">
-                    <div>Carbon credit</div>
-                    <div className="text-[#00558C]">HK$6</div>
-                  </div>
-                  {discount !== 0 && (
+                  {data.length > 0 && (
                     <>
-                      <div className="flex justify-between text-base  items-center">
-                        <div>Promo code:</div>
-                        <div className="">{formik.values?.promo}</div>
+                      <div className="flex justify-between mt-4">
+                        <div>Carbon credit</div>
+                        <div className="text-[#00558C]">HK$6</div>
                       </div>
-                      <div className="flex justify-between text-base items-center">
-                        <div>Discount:</div>
-                        <div className="">HK${discount}</div>
-                      </div>
+                      {discount !== 0 && (
+                        <>
+                          <div className="flex justify-between text-base  items-center">
+                            <div>Promo code:</div>
+                            <div className="">{formik.values?.promo}</div>
+                          </div>
+                          <div className="flex justify-between text-base items-center">
+                            <div>Discount:</div>
+                            <div className="">HK${discount}</div>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
@@ -365,14 +376,16 @@ export default function Detail() {
               <div>Please complete payment within 10 min.</div>
 
               <button
-                className={classNames("w-full bg-[#00558c] rounded-full text-white font-bold",data.length < 1 ? "bg-gray-300":"bg-[#00558C]")}
+                className={classNames(
+                  "w-full bg-[#00558c] rounded-full text-white font-bold",
+                  data.length < 1 ? "bg-gray-300" : "bg-[#00558C]"
+                )}
                 type="submit"
                 onClick={() => {}}
                 disabled={data.length < 1}
               >
                 Pay
               </button>
-              
             </div>
           </form>
         </FormikProvider>
