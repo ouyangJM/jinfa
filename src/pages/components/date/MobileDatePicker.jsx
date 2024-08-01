@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import EmblaCarousel from "../EmblaCarousel/EmblaCarousel";
 import MobileTicketList from "../mobileTicketList/MobileTicketList";
 import ArrowLeft from "./../../../assets/ArrowLeft.svg";
 import ArrowRight from "./../../../assets/ArrowRight.svg";
@@ -30,7 +31,7 @@ const MobileDatePicker = (props) => {
 
   const handleTouchEnd = () => {
     // 处理触摸结束后的逻辑
-    console.log('Swiped distance:', distance);
+    console.log("Swiped distance:", distance);
   };
 
   // 假设我们要获取未来3个月的日期
@@ -63,47 +64,46 @@ const MobileDatePicker = (props) => {
     // 设置状态以重新渲染组件
     setDates(futureDates);
   }, []);
-  const clickLeft = () => {
-    if (currentIndex === 0) return;
-    setIsMax(false);
-    console.log(
-      "clickLeft",
-      dates.slice((currentIndex - 1) * showItemNum, currentIndex * showItemNum)
-    );
+  // const clickLeft = () => {
+  //   if (currentIndex === 0) return;
+  //   setIsMax(false);
+  //   console.log(
+  //     "clickLeft",
+  //     dates.slice((currentIndex - 1) * showItemNum, currentIndex * showItemNum)
+  //   );
 
-    setCurrentIndex(currentIndex - 1);
-    setShowDate(dates.slice((currentIndex - 1) * showItemNum, currentIndex * showItemNum));
-  };
-  const clickRight = () => {
-    if (isMax) return;
-    setCurrentIndex(currentIndex + 1);
-    const data = dates.slice((currentIndex + 1) * showItemNum, (currentIndex + 2) * showItemNum);
-    if (data.length === 0) {
-      setIsMax(true);
-      setCurrentIndex(currentIndex - 1);
-      return;
-    }
+  //   setCurrentIndex(currentIndex - 1);
+  //   setShowDate(dates.slice((currentIndex - 1) * showItemNum, currentIndex * showItemNum));
+  // };
+  // const clickRight = () => {
+  //   if (isMax) return;
+  //   setCurrentIndex(currentIndex + 1);
+  //   const data = dates.slice((currentIndex + 1) * showItemNum, (currentIndex + 2) * showItemNum);
+  //   if (data.length === 0) {
+  //     setIsMax(true);
+  //     setCurrentIndex(currentIndex - 1);
+  //     return;
+  //   }
 
-    if (data.length < showItemNum) {
-      const num = showItemNum - data.length;
-      setIsMax(true);
-      for (let i = 0; i < num; i++) {
-        data.push({ date: "", dayOfWeek: "" });
-      }
-    }
-    setShowDate(data);
-    console.log("right", data);
-  };
+  //   if (data.length < showItemNum) {
+  //     const num = showItemNum - data.length;
+  //     setIsMax(true);
+  //     for (let i = 0; i < num; i++) {
+  //       data.push({ date: "", dayOfWeek: "" });
+  //     }
+  //   }
+  //   setShowDate(data);
+  //   console.log("right", data);
+  // };
 
-  useEffect(() => {
-    if(distance > 50){
-      clickRight()
-    }
-    if(distance < -50){
-      clickLeft()
-    }
-  }, [distance])
-  
+  // useEffect(() => {
+  //   if(distance > 50){
+  //     clickRight()
+  //   }
+  //   if(distance < -50){
+  //     clickLeft()
+  //   }
+  // }, [distance])
 
   return (
     <div>
@@ -111,13 +111,26 @@ const MobileDatePicker = (props) => {
         <div
           className=" cursor-pointer p-3  text-center bg-[#FFFFFF]"
           onClick={() => {
-            clickLeft();
+            // clickLeft();
           }}
         >
           <img src={ArrowLeft} alt="" />
         </div>
-        <div className=" flex w-full">
-          {showDate.map((item, index) => {
+        <div className="flex w-full">
+          <EmblaCarousel
+            slides={dates.reduce((result, value, index) => {
+              const chunkIndex = Math.floor(index / showItemNum);
+              if (!result[chunkIndex]) {
+                result[chunkIndex] = []; // 初始化新的块
+              }
+              result[chunkIndex].push(value);
+              return result;
+            }, [])}
+            options={{}}
+            clickIndex = {clickIndex}
+          />
+
+          {/* {showDate.map((item, index) => {
             return (
               <div
                 key={index}
@@ -136,12 +149,12 @@ const MobileDatePicker = (props) => {
                 <div className="text-sm">{item.dayOfWeek}</div>
               </div>
             );
-          })}
+          })} */}
         </div>
         <div
           className=" cursor-pointer p-3 text-center bg-[#FFFFFF]"
           onClick={() => {
-            clickRight();
+            // clickRight();
           }}
         >
           <img src={ArrowRight} alt="" className="w-4 h-4 border " />
