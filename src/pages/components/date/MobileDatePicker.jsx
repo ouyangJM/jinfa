@@ -1,38 +1,36 @@
 import React, { useEffect, useState } from "react";
 import EmblaCarousel from "../EmblaCarousel/EmblaCarousel";
 import MobileTicketList from "../mobileTicketList/MobileTicketList";
-import ArrowLeft from "./../../../assets/ArrowLeft.svg";
-import ArrowRight from "./../../../assets/ArrowRight.svg";
 
 const MobileDatePicker = (props) => {
   const { numDays = 60, showItemNum, chooseTicket, chooseDate, ticketList } = props;
 
   const [dates, setDates] = useState([]);
-  const [showDate, setShowDate] = useState([]);
+  // const [showDate, setShowDate] = useState([]);
   const [clickIndex, setClickIndex] = useState("");
   const [clickDate, setClickDate] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMax, setIsMax] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [currentX, setCurrentX] = useState(0);
-  const [distance, setDistance] = useState(0);
+  // const [currentIndex, setCurrentIndex] = useState(0);
+  // const [isMax, setIsMax] = useState(false);
+  // const [startX, setStartX] = useState(0);
+  // const [currentX, setCurrentX] = useState(0);
+  // const [distance, setDistance] = useState(0);
 
-  const handleTouchStart = (e) => {
-    // 记录触摸开始的位置
-    setStartX(e.touches[0].clientX);
-    setCurrentX(e.touches[0].clientX);
-  };
+  // const handleTouchStart = (e) => {
+  //   // 记录触摸开始的位置
+  //   setStartX(e.touches[0].clientX);
+  //   setCurrentX(e.touches[0].clientX);
+  // };
 
-  const handleTouchMove = (e) => {
-    // 更新当前位置
-    setCurrentX(e.touches[0].clientX);
-    setDistance(e.touches[0].clientX - startX);
-  };
+  // const handleTouchMove = (e) => {
+  //   // 更新当前位置
+  //   setCurrentX(e.touches[0].clientX);
+  //   setDistance(e.touches[0].clientX - startX);
+  // };
 
-  const handleTouchEnd = () => {
-    // 处理触摸结束后的逻辑
-    console.log("Swiped distance:", distance);
-  };
+  // const handleTouchEnd = () => {
+  //   // 处理触摸结束后的逻辑
+  //   console.log("Swiped distance:", distance);
+  // };
 
   // 假设我们要获取未来3个月的日期
   useEffect(() => {
@@ -58,32 +56,12 @@ const MobileDatePicker = (props) => {
       currentDate.setDate(currentDate.getDate() + 1);
     }
     chooseDate(futureDates[0]);
-    setShowDate(futureDates.slice(0, showItemNum));
+    // setShowDate(futureDates.slice(0, showItemNum));
     setClickIndex(futureDates[0].date);
     setClickDate(futureDates[0]);
     // 设置状态以重新渲染组件
     setDates(futureDates);
   }, []);
-  // const clickLeft = () => {
-  //   if (currentIndex === 0) return;
-  //   setIsMax(false);
-  //   console.log(
-  //     "clickLeft",
-  //     dates.slice((currentIndex - 1) * showItemNum, currentIndex * showItemNum)
-  //   );
-
-  //   setCurrentIndex(currentIndex - 1);
-  //   setShowDate(dates.slice((currentIndex - 1) * showItemNum, currentIndex * showItemNum));
-  // };
-  // const clickRight = () => {
-  //   if (isMax) return;
-  //   setCurrentIndex(currentIndex + 1);
-  //   const data = dates.slice((currentIndex + 1) * showItemNum, (currentIndex + 2) * showItemNum);
-  //   if (data.length === 0) {
-  //     setIsMax(true);
-  //     setCurrentIndex(currentIndex - 1);
-  //     return;
-  //   }
 
   //   if (data.length < showItemNum) {
   //     const num = showItemNum - data.length;
@@ -106,16 +84,8 @@ const MobileDatePicker = (props) => {
   // }, [distance])
 
   return (
-    <div>
-      <div className="flex justify-left items-center text-base">
-        <div
-          className=" cursor-pointer p-3  text-center bg-[#FFFFFF]"
-          onClick={() => {
-            // clickLeft();
-          }}
-        >
-          <img src={ArrowLeft} alt="" />
-        </div>
+    <div className="w-full">
+      <div className="flex justify-left items-center text-base bg-white">
         <div className="flex w-full">
           <EmblaCarousel
             slides={dates.reduce((result, value, index) => {
@@ -127,40 +97,14 @@ const MobileDatePicker = (props) => {
               return result;
             }, [])}
             options={{}}
-            clickIndex = {clickIndex}
+            clickIndex={clickIndex}
+            setClickIndex={setClickIndex}
+            setClickDate={setClickDate}
+            chooseDate={chooseDate}
+            clickDate={clickDate}
           />
-
-          {/* {showDate.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className={`m-1 px-3 py-2 bg-white flex-1 flex flex-col justify-center items-center cursor-pointer  ${clickIndex === item.date ? "text-[#00558C]" : "bg-[#FAFAFA]"}`}
-                onClick={() => {
-                  setClickIndex(item.date);
-                  setClickDate(item);
-                  chooseDate(item);
-                  // clickDate();
-                }}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-              >
-                <div className="text-sm">{item.date}</div>
-                <div className="text-sm">{item.dayOfWeek}</div>
-              </div>
-            );
-          })} */}
-        </div>
-        <div
-          className=" cursor-pointer p-3 text-center bg-[#FFFFFF]"
-          onClick={() => {
-            // clickRight();
-          }}
-        >
-          <img src={ArrowRight} alt="" className="w-4 h-4 border " />
         </div>
       </div>
-      <div>{distance}</div>
       {ticketList && (
         <MobileTicketList
           date={clickIndex}

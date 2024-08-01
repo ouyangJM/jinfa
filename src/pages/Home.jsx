@@ -289,7 +289,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex bg-white py-3 border-t-[2px] ">
+          <div className="flex pb-3 border-t-[2px]">
             <MobileDatePicker
               ticketList={ticketList}
               showItemNum={5}

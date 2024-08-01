@@ -5,45 +5,35 @@ import "./embla.css";
 import Item from "./Item";
 
 const EmblaCarousel = (props) => {
-  const { slides, options, clickIndex } = props;
+  const { slides, options, clickIndex ,setClickIndex,setClickDate,chooseDate,clickDate} = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
-  // const { selectedIndex, scrollSnaps, onDotButtonClick } =
-  //   useDotButton(emblaApi)
 
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
     usePrevNextButtons(emblaApi);
 
   return (
-    <section className="embla w-full">
+    <section className="embla flex">
+      <div className="embla__buttons">
+          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+        </div>
       <div className="embla__viewport w-full" ref={emblaRef}>
         <div className="embla__container w-full">
           {slides.map((i,index) => {
             return (
-              <Item item={i} key={index} clickIndex={clickIndex} />
+              <Item item={i} key={index} clickIndex={clickIndex} 
+              setClickIndex = {setClickIndex}
+            setClickDate = {setClickDate}
+            chooseDate = {chooseDate}
+            clickDate = {clickDate}
+              />
             );
           })}
         </div>
       </div>
-
-      <div className="embla__controls">
-        <div className="embla__buttons">
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+      <div className="embla__buttons">
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
-
-        {/* <div className="embla__dots">
-          {scrollSnaps.map((_, index) => (
-            <DotButton
-              key={index}
-              onClick={() => onDotButtonClick(index)}
-              className={'embla__dot'.concat(
-                index === selectedIndex ? ' embla__dot--selected' : ''
-              )}
-            />
-          ))}
-        </div> */}
-      </div>
     </section>
   );
 };

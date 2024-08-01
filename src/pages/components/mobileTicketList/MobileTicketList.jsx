@@ -1,6 +1,9 @@
+import classNames from "classnames";
 import React from "react";
 import Moon from "../../../assets/Moon.svg";
 import Sun from "../../../assets/bigSun.svg";
+import down from "../../../assets/down.svg";
+
 
 const MobileTicketList = (props) => {
   const { ticketList, date, clickDate, chooseTicket, clickItem } = props;
@@ -29,19 +32,17 @@ const MobileTicketList = (props) => {
                 <div className="text-[#9C9C9C] text-sm mr-3">From</div>
                 <div className="text-[#00558C] text-xl mr-3">HK${item.auditPrice}</div>
                 <img
-                  src={Moon}
+                  src={down}
                   alt=""
-                  onClick={() => {
-                    setShowDetailId("1");
-                  }}
+                  className={classNames(showDetailId === item.id? "transition duration-300 rotate-180" : "")}
                 />
               </div>
             </div>
             {/* checkbox */}
             <div style={{ display: showDetailId === item.id ? "block" : "none" }}>
               <div className="w-full bg-[#EBEBEB]" style={{ height: "1px" }}></div>
-              <div className="flex justify-between w-full  px-4 py-3">
-                <div className="flex flex-col items-center justify-center">
+              <div className="flex justify-between w-full  px-5 py-4">
+                <div className="flex flex-col items-start justify-center">
                   <div className="text-sm">{item.seatType}</div>
                   <div className="flex">
                     <div className="mr-2">Adult</div>
@@ -53,7 +54,7 @@ const MobileTicketList = (props) => {
                     <div className="text-[#FF4D4F] text-sm">{item.stockText}</div>
                   )}
                   <input
-                    className="p-5"
+                    className="w-5 h-5"
                     type="radio"
                     name="tickets"
                     onClick={() => {
