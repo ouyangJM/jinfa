@@ -1,9 +1,9 @@
 import React from "react";
 import Moon from "./../../../assets/Moon.svg";
+import outbound from "./../../../assets/Outbound.svg";
+import returnImg from "./../../../assets/Return.svg";
 import SwapRight from "./../../../assets/SwapRight.svg";
 import smallSun from "./../../../assets/smallSun.svg";
-import returnImg from "./../../../assets/Return.svg";
-import outbound from "./../../../assets/Outbound.svg";
 
 export default function MobileTicketItem({ data, isFirst, deleteTicket }) {
   const image = data.from === "Hong Kong" ? outbound : returnImg;
@@ -58,7 +58,6 @@ export default function MobileTicketItem({ data, isFirst, deleteTicket }) {
           Add Promotion code
         </div> */}
       </div>
-      <div className="w-full bg-[#EBEBEB]" style={{ height: "1px" }}></div>
     </div>
   );
 }

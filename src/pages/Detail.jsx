@@ -289,6 +289,7 @@ export default function Detail() {
                   }) || []}
                 </div>
                 <div className=" p-3 bg-white rounded-b-lg">
+                  <div className="bg-gray-300 h-[1px]" />
                   <div className="flex justify-between mt-4">
                     <div>subtotal:</div>
                     <div className="text-[#00558C]">HK${totalPrice}</div>
