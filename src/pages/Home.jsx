@@ -248,7 +248,11 @@ export default function Home() {
                 Add to Cart
               </button>
               <button
-                className={`flex-1 bg-[#00558c]`}
+                className={classNames(
+                  `flex-1`,
+                  !checkedList && cartList.length < 1 ? "bg-gray-300" : "bg-[#00558c]"
+                )}
+                disabled={!checkedList && cartList.length < 1}
                 onClick={() => {
                   checkOut();
                 }}
@@ -269,9 +273,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="sm:hidden flex-1 block w-full">
+      <div className="sm:hidden flex-1 flex flex-col w-full h-full">
         {status === 0 && (
-          <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
+          <div className="flex-1 flex flex-col justify-between w-full bg-[#F4F8FB]">
             <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
               <img src={Left} alt="left" />
               <div className="text-white font-bold">Outbound</div>
@@ -289,18 +293,18 @@ export default function Home() {
             </div>
 
             <div className="flex-1 flex flex-col">
-              <div className="flex bg-white px-5 py-3">
-                <div className="flex justify-between items-center bg-white">
+              <div className="flex bg-white px-5 py-3 justify-center">
+                <div className="flex justify-center items-center bg-white">
                   <div className="flex flex-col justify-center items-center pl-15 text-center">
-                    <div className="text-xl">{flow.from}</div>
-                    <div className="text-sm">{flow.fromTerminal}</div>
+                    <div className="text-xl">Hong Kong</div>
+                    <div className="text-sm">Macau Ferry Terminal</div>
                   </div>
                   <div className="px-5">
                     <img src={SwapRight} alt="SwapRight" />
                   </div>
                   <div className="flex flex-col justify-center items-center pr-15 text-center">
-                    <div className="text-xl">{flow.to}</div>
-                    <div className="text-sm">{flow.toTerminal}</div>
+                    <div className="text-xl">Macau</div>
+                    <div className="text-sm">Taipa Ferry Terminal</div>
                   </div>
                 </div>
               </div>
@@ -321,10 +325,10 @@ export default function Home() {
               <button
                 className={classNames(
                   "w-full rounded-full text-white font-bold",
-                  !checkedList && cartList.length < 1 ? "bg-gray-400" : "bg-[#00558c]"
+                  !checkedList ? "bg-gray-400" : "bg-[#00558c]"
                 )}
                 type="button"
-                disabled={!checkedList && cartList.length < 1}
+                disabled={!checkedList}
                 onClick={() => {
                   addToCart();
                 }}
@@ -334,24 +338,41 @@ export default function Home() {
               <button
                 className={classNames(
                   "w-full rounded-full text-white font-bold",
-                  !checkedList && cartList.length < 1 ? "bg-gray-400" : "bg-[#00558c]"
+                  !checkedList ? "bg-gray-400" : "bg-[#00558c]"
                 )}
                 type="button"
-                disabled={!checkedList && cartList.length < 1}
+                disabled={!checkedList}
                 onClick={() => {
-                  setStatus(1);
+                  addToCart();
                   buyReturnTrip();
+                  setStatus(1);
                 }}
               >
                 Purchase return trip
+              </button>
+              <button
+                className="w-full bg-[#00558c] rounded-full text-white font-bold"
+                type="button"
+                onClick={() => {
+                  checkOut();
+                }}
+              >
+                Check out
               </button>
             </div>
           </div>
         )}
         {status === 1 && (
-          <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
+          <div className="flex-1 flex flex-col justify-between w-full bg-[#F4F8FB]">
             <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
-              <img src={Left} alt="left" onClick={() => setStatus(0)} />
+              <img src={Left} alt="left" onClick={() => {setStatus(0);setCheckedList(null);
+                setFlow({
+                  from: flow.to,
+                  fromTerminal: flow.toTerminal,
+                  to: flow.from,
+                  toTerminal: flow.fromTerminal,
+                })
+              }} />
               <div className="text-white font-bold">Return</div>
               <div
                 className="relative"
@@ -370,15 +391,15 @@ export default function Home() {
               <div className="flex bg-white px-5 py-3">
                 <div className="flex justify-between items-center bg-white">
                   <div className="flex flex-col justify-center items-center pl-15 text-center">
-                    <div className="text-xl">{flow.from}</div>
-                    <div className="text-sm">{flow.fromTerminal}</div>
+                    <div className="text-xl">Macau</div>
+                    <div className="text-sm">Taipa Ferry Terminal</div>
                   </div>
                   <div className="px-5">
                     <img src={SwapRight} alt="SwapRight" />
                   </div>
                   <div className="flex flex-col justify-center items-center pr-15 text-center">
-                    <div className="text-xl">{flow.to}</div>
-                    <div className="text-sm">{flow.toTerminal}</div>
+                    <div className="text-xl">Hong Kong</div>
+                    <div className="text-sm">Macau Ferry Terminal</div>
                   </div>
                 </div>
               </div>
