@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cart1 from "../assets/cart1.svg";
@@ -16,7 +17,6 @@ export default function Home() {
   const [cartCount, setCartCount] = useState(0);
   const [status, setStatus] = useState(0);
   const [totalPrice, setTotalPrice] = useState({ from: 0, to: 0 });
-  
 
   const [flow, setFlow] = useState({
     from: "Hong Kong",
@@ -270,103 +270,153 @@ export default function Home() {
       </div>
 
       <div className="sm:hidden flex-1 block w-full">
-        {status === 0 && <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
-          <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
-            <img src={Left} alt="left" />
-            <div className="text-white font-bold">Outbound</div>
-            <img src={cart1} alt="cart" />
-          </div>
-
-          <div className="flex-1 flex flex-col">
-            <div className="flex bg-white px-5 py-3">
-              <div className="flex justify-between items-center bg-white">
-                <div className="flex flex-col justify-center items-center pl-15 text-center">
-                  <div className="text-xl">{flow.from}</div>
-                  <div className="text-sm">{flow.fromTerminal}</div>
-                </div>
-                <div className="px-5">
-                  <img src={SwapRight} alt="SwapRight" />
-                </div>
-                <div className="flex flex-col justify-center items-center pr-15 text-center">
-                  <div className="text-xl">{flow.to}</div>
-                  <div className="text-sm">{flow.toTerminal}</div>
+        {status === 0 && (
+          <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
+            <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
+              <img src={Left} alt="left" />
+              <div className="text-white font-bold">Outbound</div>
+              <div
+                className="relative"
+                onClick={() => {
+                  navigate("/detail");
+                }}
+              >
+                <img src={cart1} alt="cart" />
+                <div className="absolute -left-2 -top-2 w-4 h-4 rounded-full bg-red-600 flex items-center justify-center text-white">
+                  {cartCount}
                 </div>
               </div>
             </div>
 
-            <div className="flex pb-3 border-t-[2px]">
-              <MobileDatePicker
-                ticketList={ticketList}
-                showItemNum={5}
-                chooseTicket={chooseTicket}
-                checkedList={checkedList}
-                chooseDate={fetchTicks}
-                clickItem={checkedList?.id}
-              />
+            <div className="flex-1 flex flex-col">
+              <div className="flex bg-white px-5 py-3">
+                <div className="flex justify-between items-center bg-white">
+                  <div className="flex flex-col justify-center items-center pl-15 text-center">
+                    <div className="text-xl">{flow.from}</div>
+                    <div className="text-sm">{flow.fromTerminal}</div>
+                  </div>
+                  <div className="px-5">
+                    <img src={SwapRight} alt="SwapRight" />
+                  </div>
+                  <div className="flex flex-col justify-center items-center pr-15 text-center">
+                    <div className="text-xl">{flow.to}</div>
+                    <div className="text-sm">{flow.toTerminal}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex pb-3 border-t-[2px]">
+                <MobileDatePicker
+                  ticketList={ticketList}
+                  showItemNum={5}
+                  chooseTicket={chooseTicket}
+                  checkedList={checkedList}
+                  chooseDate={fetchTicks}
+                  clickItem={checkedList?.id}
+                />
+              </div>
+            </div>
+
+            <div className="bg-white py-3 px-5 flex justify-center flex-col gap-y-2">
+              <button
+                className={classNames(
+                  "w-full rounded-full text-white font-bold",
+                  !checkedList && cartList.length < 1 ? "bg-gray-400" : "bg-[#00558c]"
+                )}
+                type="button"
+                disabled={!checkedList && cartList.length < 1}
+                onClick={() => {
+                  addToCart();
+                }}
+              >
+                Add to Cart
+              </button>
+              <button
+                className={classNames(
+                  "w-full rounded-full text-white font-bold",
+                  !checkedList && cartList.length < 1 ? "bg-gray-400" : "bg-[#00558c]"
+                )}
+                type="button"
+                disabled={!checkedList && cartList.length < 1}
+                onClick={() => {
+                  setStatus(1);
+                  buyReturnTrip();
+                }}
+              >
+                Check out
+              </button>
             </div>
           </div>
-
-          <div className="bg-white py-3 px-5 flex justify-center">
-            <button
-              className="w-full bg-[#00558c] rounded-full text-white font-bold"
-              type="button"
-              onClick={() => {
-                // checkOut();
-                setStatus(1)
-              }}
-            >
-              Next
-            </button>
-          </div>
-        </div>}
-        {status === 1 && <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
-          <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
-            <img src={Left} alt="left" onClick={() => setStatus(0)} />
-            <div className="text-white font-bold">Return</div>
-            <img src={cart1} alt="cart" />
-          </div>
-
-          <div className="flex-1 flex flex-col">
-            <div className="flex bg-white px-5 py-3">
-              <div className="flex justify-between items-center bg-white">
-                <div className="flex flex-col justify-center items-center pl-15 text-center">
-                  <div className="text-xl">{flow.to}</div>
-                  <div className="text-sm">{flow.toTerminal}</div>
-                </div>
-                <div className="px-5">
-                  <img src={SwapRight} alt="SwapRight" />
-                </div>
-                <div className="flex flex-col justify-center items-center pr-15 text-center">
-                  <div className="text-xl">{flow.from}</div>
-                  <div className="text-sm">{flow.fromTerminal}</div>
+        )}
+        {status === 1 && (
+          <div className="flex flex-col justify-between w-full bg-[#F4F8FB]">
+            <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
+              <img src={Left} alt="left" onClick={() => setStatus(0)} />
+              <div className="text-white font-bold">Return</div>
+              <div
+                className="relative"
+                onClick={() => {
+                  navigate("/detail");
+                }}
+              >
+                <img src={cart1} alt="cart" />
+                <div className="absolute -left-2 -top-2 w-4 h-4 rounded-full bg-red-600 flex items-center justify-center text-white">
+                  {cartCount}
                 </div>
               </div>
             </div>
 
-            <div className="flex pb-3 border-t-[2px]">
-              <MobileDatePicker
-                ticketList={ticketList}
-                showItemNum={5}
-                chooseTicket={chooseTicket}
-                checkedList={checkedList}
-                chooseDate={fetchTicks}
-                clickItem={checkedList?.id}
-              />
+            <div className="flex-1 flex flex-col">
+              <div className="flex bg-white px-5 py-3">
+                <div className="flex justify-between items-center bg-white">
+                  <div className="flex flex-col justify-center items-center pl-15 text-center">
+                    <div className="text-xl">{flow.from}</div>
+                    <div className="text-sm">{flow.fromTerminal}</div>
+                  </div>
+                  <div className="px-5">
+                    <img src={SwapRight} alt="SwapRight" />
+                  </div>
+                  <div className="flex flex-col justify-center items-center pr-15 text-center">
+                    <div className="text-xl">{flow.to}</div>
+                    <div className="text-sm">{flow.toTerminal}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex pb-3 border-t-[2px]">
+                <MobileDatePicker
+                  ticketList={ticketList}
+                  showItemNum={5}
+                  chooseTicket={chooseTicket}
+                  checkedList={checkedList}
+                  chooseDate={fetchTicks}
+                  clickItem={checkedList?.id}
+                />
+              </div>
+            </div>
+
+            <div className="bg-white py-3 px-5 flex flex-col gap-y-2 justify-center">
+              <button
+                className="w-full bg-[#00558c] rounded-full text-white font-bold"
+                type="button"
+                onClick={() => {
+                  addToCart();
+                }}
+              >
+                Add to Cart
+              </button>
+              <button
+                className="w-full bg-[#00558c] rounded-full text-white font-bold"
+                type="button"
+                onClick={() => {
+                  checkOut();
+                }}
+              >
+                Check out
+              </button>
             </div>
           </div>
-
-          <div className="bg-white py-3 px-5 flex justify-center">
-            <button
-              className="w-full bg-[#00558c] rounded-full text-white font-bold"
-              type="button"
-              onClick={() => {
-                checkOut();
-              }}
-            >
-              Check out
-            </button>
-          </div>
-        </div>}
+        )}
       </div>
     </>
   );
