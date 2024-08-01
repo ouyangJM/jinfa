@@ -193,7 +193,7 @@ export default function Detail() {
                   </div></>}
                   <div className="flex justify-between text-[#000] font-bold items-center">
                     <div className="text-2xl">Total:</div>
-                    <div className="text-3xl">HK${totalPrice - 6}</div>
+                    <div className="text-3xl">HK${totalPrice}</div>
                   </div>
 
                   <div className="flex">

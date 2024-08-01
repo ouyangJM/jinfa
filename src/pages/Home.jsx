@@ -15,13 +15,24 @@ export default function Home() {
   const [ticks, setTicks] = useState([]);
   const [cartList, setCartList] = useState(JSON.parse(localStorage.getItem("cartList")) || []);
   const [cartCount, setCartCount] = useState(0);
+  const [totalPrice, setTotalPrice] = useState({ from: 0, to: 0 });
+
+  const [flow, setFlow] = useState({
+    from: "Hong Kong",
+    fromTerminal: "Macau Ferry Terminal",
+    to: "Macau",
+    toTerminal: "Taipa Ferry Termina",
+  });
 
   const [ticketList, setTicketList] = useState([]);
-  const fetchTicks = (newDate) => {
-    const dateParams = `2024-${newDate.date} 00:00:00`;
+  const fetchTicks = (newDate, newFlow = { from: "Hong Kong", to: "Macau" }, hour = "00:00:00") => {
+    const dateParams = `2024-${newDate.date} ${hour}`;
+    const newFrom = newFlow.from;
+    const newTo = newFlow.to;
+
     const data = JSON.stringify({
-      from: "Hong Kong",
-      to: "Macau",
+      from: newFrom,
+      to: newTo,
       date: dateParams,
     });
     console.log("newDate", data);
@@ -54,19 +65,56 @@ export default function Home() {
   }, []);
 
   const [checkedList, setCheckedList] = useState();
+  const [backList, setBackList] = useState();
   const chooseTicket = (e) => {
     console.log("chooseTicket", e);
-    setCheckedList(e);
+    if (flow.from === "Hong Kong") {
+      setCheckedList(e);
+      setTotalPrice({ ...totalPrice, from: Number(e.auditPrice) });
+    } else {
+      setBackList(e);
+      setTotalPrice({ ...totalPrice, to: Number(e.auditPrice) });
+    }
   };
   const checkOut = () => {
     if (!checkedList && cartList.length < 1) return;
-    if (cartList.length < 1 && checkedList) {
-      localStorage.setItem("cartList", JSON.stringify([checkedList]));
-      navigate("/detail");
-      return;
-    }
-    localStorage.setItem("cartList", JSON.stringify(cartList));
+    // if (cartList.length < 1 && checkedList &&!backList) {
+    //   navigate("/detail");
+    //   return;
+    // }
+    // if (cartList.length < 1 && checkedList && backList) {
+    //   navigate("/detail");
+    //   return;
+    // }
+
+    // localStorage.setItem("cartList", JSON.stringify(cartList));
     navigate("/detail");
+  };
+  const buyReturnTrip = () => {
+    const newFlow = {
+      from: flow.to,
+      fromTerminal: flow.toTerminal,
+      to: flow.from,
+      toTerminal: flow.fromTerminal,
+    };
+
+    // console.log('checkedList.date',checkedList);
+    fetchTicks(checkedList, newFlow, checkedList.startTime.split(" ")[1]);
+    setFlow(newFlow);
+  };
+
+  const addToCart = () => {
+    if (!checkedList) return;
+    if(!backList){
+      setCartCount(cartCount + 1);
+      setCartList([...cartList, checkedList]);
+      localStorage.setItem("cartList", JSON.stringify([...cartList, checkedList]));
+    }else{
+      setCartCount(cartCount + 2);
+      setCartList([...cartList, checkedList,backList]);
+      localStorage.setItem("cartList", JSON.stringify([...cartList, checkedList,backList]));
+    }
+   
   };
 
   return (
@@ -79,11 +127,15 @@ export default function Home() {
                 <img src={ArrowLeft} alt="ArrowLeft" />
                 Back
               </div>
-              <div className="text-sm">Select outbound sailing：</div>
+              <div className="text-sm">Select {flow.from === 'Hong Kong'?'outbound':'return'} sailing：</div>
               <div className="flex gap-y-2 gap-x-3 text-xl items-center">
-                <div>Hong Kong Macau Ferry Terminal</div>
+                <div>
+                  {flow.from} {flow.fromTerminal}
+                </div>
                 <img src={SwapRight} alt="SwapRight" />
-                <div>Macau Taipa Ferry Terminal</div>
+                <div>
+                  {flow.to} {flow.toTerminal}
+                </div>
               </div>
             </div>
           </div>
@@ -137,18 +189,57 @@ export default function Home() {
                 <div className="w-full bg-[#EBEBEB] mt-3" style={{ height: "1px" }}></div>
               </div>
             )}
+            {backList && (
+              <div className=" bg-white flex just-center items-center flex-col pt-3">
+                <div className="flex justify-between items-center bg-white">
+                  <div className="flex flex-col justify-center items-center pl-15">
+                    <div className="text-2xl">{backList.from}</div>
+                    <div className="text-sm">{backList.fromTerminal}</div>
+                  </div>
+                  <div className="px-5">
+                    <img src={SwapRight} alt="SwapRight" />
+                  </div>
+                  <div className="flex flex-col justify-center items-center pr-15">
+                    <div className="text-2xl">{backList.to}</div>
+                    <div className="text-sm">{backList.toTerminal}</div>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center bg-white pt-5">
+                  <div className="mr-2 text-sm">{backList.date} </div>
+                  <div className="mr-2 text-sm"> {backList.dayOfWeek} </div>
+                  <img src={backList.timeFlag === "NIGHT" ? Moon : Sun} alt="" className="mr-2" />
+                  <div className="text-sm">{backList?.startTime?.split(" ")[1]}</div>
+                </div>
+                <div className="text-sm">{backList.seatType}</div>
+                <div className="flex">
+                  <div className="mr-2 text-xl">Adult</div>
+                  <div className="text-xl text-[#00558C]">HK${backList.auditPrice}</div>
+                </div>
+                <div className="w-full bg-[#EBEBEB] mt-3" style={{ height: "1px" }}></div>
+              </div>
+            )}
             <div className="flex justify-between items-center py-4 px-6 text-2xl bg-white">
               <div>Total</div>
-              <div className="text-3xl font-medium">HK${checkedList?.auditPrice || 0}</div>
+              <div className="text-3xl font-medium">HK${totalPrice.from + totalPrice.to}</div>
             </div>
+            {checkedList && !backList && (
+              <div className="bg-[#FFFFFF] w-full flex justify-end items-center py-4 px-6">
+                <div
+                  className="bg-[#A08A59] p-3 text-[#FFFFFF] rounded-lg cursor-pointer "
+                  onClick={() => {
+                    buyReturnTrip();
+                  }}
+                >
+                  Purchase return trip
+                </div>
+              </div>
+            )}
 
             <div className="mt-5 text-white flex justify-between gap-x-5">
               <button
                 className="flex-1 bg-[#7fb7db]"
                 onClick={() => {
-                  if (!checkedList) return;
-                  setCartCount(cartCount + 1);
-                  setCartList([...cartList, checkedList]);
+                  addToCart();
                 }}
               >
                 Add to Cart
@@ -185,15 +276,15 @@ export default function Home() {
           <div className="flex bg-white px-5 py-3">
             <div className="flex justify-between items-center bg-white">
               <div className="flex flex-col justify-center items-center pl-15 text-center">
-                <div className="text-xl">Hong Kong</div>
-                <div className="text-sm">Macau Ferry Terminal</div>
+                <div className="text-xl">{flow.from}</div>
+                <div className="text-sm">{flow.fromTerminal}</div>
               </div>
               <div className="px-5">
                 <img src={SwapRight} alt="SwapRight" />
               </div>
               <div className="flex flex-col justify-center items-center pr-15 text-center">
-                <div className="text-xl">Macau</div>
-                <div className="text-sm">Taipa Ferry Terminal</div>
+                <div className="text-xl">{flow.to}</div>
+                <div className="text-sm">{flow.toTerminal}</div>
               </div>
             </div>
           </div>
