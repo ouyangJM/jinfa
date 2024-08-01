@@ -78,14 +78,17 @@ export default function Home() {
   };
   const checkOut = () => {
     if (!checkedList && cartList.length < 1) return;
-    // if (cartList.length < 1 && checkedList &&!backList) {
-    //   navigate("/detail");
-    //   return;
-    // }
-    // if (cartList.length < 1 && checkedList && backList) {
-    //   navigate("/detail");
-    //   return;
-    // }
+    if (cartList.length < 1 && checkedList && !backList) {
+      localStorage.setItem("cartList", JSON.stringify([checkedList]));
+      navigate("/detail");
+      return;
+    }
+    if (cartList.length < 1 && checkedList && backList) {
+      localStorage.setItem("cartList", JSON.stringify([checkedList, backList]));
+
+      navigate("/detail");
+      return;
+    }
 
     // localStorage.setItem("cartList", JSON.stringify(cartList));
     navigate("/detail");
@@ -105,16 +108,15 @@ export default function Home() {
 
   const addToCart = () => {
     if (!checkedList) return;
-    if(!backList){
+    if (!backList) {
       setCartCount(cartCount + 1);
       setCartList([...cartList, checkedList]);
       localStorage.setItem("cartList", JSON.stringify([...cartList, checkedList]));
-    }else{
+    } else {
       setCartCount(cartCount + 2);
-      setCartList([...cartList, checkedList,backList]);
-      localStorage.setItem("cartList", JSON.stringify([...cartList, checkedList,backList]));
+      setCartList([...cartList, checkedList, backList]);
+      localStorage.setItem("cartList", JSON.stringify([...cartList, checkedList, backList]));
     }
-   
   };
 
   return (
@@ -127,7 +129,9 @@ export default function Home() {
                 <img src={ArrowLeft} alt="ArrowLeft" />
                 Back
               </div>
-              <div className="text-sm">Select {flow.from === 'Hong Kong'?'outbound':'return'} sailing：</div>
+              <div className="text-sm">
+                Select {flow.from === "Hong Kong" ? "outbound" : "return"} sailing：
+              </div>
               <div className="flex gap-y-2 gap-x-3 text-xl items-center">
                 <div>
                   {flow.from} {flow.fromTerminal}
@@ -305,7 +309,9 @@ export default function Home() {
           <button
             className="w-full bg-[#00558c] rounded-full text-white font-bold"
             type="button"
-            onClick={() => navigate("/detail")}
+            onClick={() => {
+              checkOut();
+            }}
           >
             Check out
           </button>
