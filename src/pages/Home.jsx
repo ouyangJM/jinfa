@@ -21,7 +21,7 @@ export default function Home() {
     from: "Hong Kong",
     fromTerminal: "Macau Ferry Terminal",
     to: "Macau",
-    toTerminal: "Taipa Ferry Termina",
+    toTerminal: "Taipa Ferry Terminal",
   });
 
   const [ticketList, setTicketList] = useState([]);
