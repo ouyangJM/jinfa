@@ -6,6 +6,7 @@ import CheckboxInput from "./components/CheckboxInput/CheckboxInput";
 import RadioInput from "./components/RadioInput/RadioInput";
 import TextInput from "./components/TextInput/TextInput";
 import TicketItem from "./components/TicketItem/TicketItem";
+import MobileTicketItem from "./components/TicketItem/MobileTicketItem";
 
 const radioList = [
   {
@@ -98,7 +99,7 @@ export default function Detail() {
   const deleteTicket = (id) => {
     const newData = data.filter((item) => item.newId !== id);
     setIsDelete(!isDelete);
-    getPreferential(newData)
+    getPreferential(newData);
     localStorage.setItem("cartList", JSON.stringify(newData));
     // setData(newData);
   };
@@ -175,22 +176,31 @@ export default function Detail() {
                     <div>Subtotal</div>
                     <div className="font-bold">HK${totalPrice}</div>
                   </div>
-                  {data.length > 0 && <><div className="flex justify-between text-base text-[#00558C] items-center">
-                    <div>Carbon credit:</div>
-                    <div className="font-bold">HK$6</div>
-                  </div>
-                  {discount !== 0 && <>
-                    <div className="flex justify-between text-base text-[#00558C] items-center">
-                    <div>Promo code:</div>
-                    <div className="font-bold">{formik.values?.promo}</div>
-                  </div>
-                  <div className="flex justify-between text-base text-[#00558C] items-center">
-                    <div>Discount:</div>
-                    <div className="font-bold">HK${discount}</div>
-                  </div></>}</>}
+                  {data.length > 0 && (
+                    <>
+                      <div className="flex justify-between text-base text-[#00558C] items-center">
+                        <div>Carbon credit:</div>
+                        <div className="font-bold">HK$6</div>
+                      </div>
+                      {discount !== 0 && (
+                        <>
+                          <div className="flex justify-between text-base text-[#00558C] items-center">
+                            <div>Promo code:</div>
+                            <div className="font-bold">{formik.values?.promo}</div>
+                          </div>
+                          <div className="flex justify-between text-base text-[#00558C] items-center">
+                            <div>Discount:</div>
+                            <div className="font-bold">HK${discount}</div>
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
                   <div className="flex justify-between text-[#000] font-bold items-center">
                     <div className="text-2xl">Total:</div>
-                    <div className="text-3xl">HK${totalPrice - 6 -discount > 0 ?(totalPrice - 6 -discount):0}</div>
+                    <div className="text-3xl">
+                      HK${totalPrice - 6 - discount > 0 ? totalPrice - 6 - discount : 0}
+                    </div>
                   </div>
 
                   <div className="flex">
@@ -253,10 +263,10 @@ export default function Detail() {
 
               <div>
                 <div className="text-base font-bold mb-4">Ticket Information</div>
-                <div className="p-3 shadow-lg bg-white rounded-lg">
+                <div className="p-3 shadow-lg bg-white rounded-t-lg">
                   {data?.map((item, index) => {
                     return (
-                      <TicketItem
+                      <MobileTicketItem
                         deleteTicket={deleteTicket}
                         data={item}
                         key={item.id}
@@ -264,6 +274,28 @@ export default function Detail() {
                       />
                     );
                   }) || []}
+                </div>
+                <div className=" p-3 bg-white rounded-b-lg">
+                  <div className="flex justify-between mt-4">
+                    <div>subtotal:</div>
+                    <div className="text-[#00558C]">HK${totalPrice}</div>
+                  </div>
+                  <div className="flex justify-between mt-4">
+                    <div>Carbon credit</div>
+                    <div className="text-[#00558C]">HK$6</div>
+                  </div>
+                  {discount !== 0 && (
+                    <>
+                      <div className="flex justify-between text-base  items-center">
+                        <div>Promo code:</div>
+                        <div className="">{formik.values?.promo}</div>
+                      </div>
+                      <div className="flex justify-between text-base items-center">
+                        <div>Discount:</div>
+                        <div className="">HK${discount}</div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -300,7 +332,10 @@ export default function Detail() {
             <div className="bg-white py-3 px-5 text-sm text-center leading-6">
               <div className="flex items-center justify-center gap-x-[10px]">
                 <div className="text-base font-bold">Total:</div>
-                <div className="text-3xl text-[#00558C] font-bold leading-10">HK$175</div>
+                <div className="text-3xl text-[#00558C] font-bold leading-10">
+                  {" "}
+                  HK${totalPrice - 6 - discount > 0 ? totalPrice - 6 - discount : 0}
+                </div>
               </div>
               <CheckboxInput
                 label={
