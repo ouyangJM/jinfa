@@ -1,12 +1,14 @@
+import classNames from "classnames";
 import { FormikProvider, useFormik } from "formik";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import * as yup from 'yup';
 import Close from "../assets/Close.svg";
 import CheckboxInput from "./components/CheckboxInput/CheckboxInput";
 import RadioInput from "./components/RadioInput/RadioInput";
 import TextInput from "./components/TextInput/TextInput";
-import TicketItem from "./components/TicketItem/TicketItem";
 import MobileTicketItem from "./components/TicketItem/MobileTicketItem";
+import TicketItem from "./components/TicketItem/TicketItem";
 
 const radioList = [
   {
@@ -62,7 +64,17 @@ export default function Detail() {
       connectionMethod: 0,
       agreement: true,
     },
-    validationSchema: null,
+    validationSchema: yup.object({
+      email:yup.string().email().required(),
+      phone:yup.mixed().when("connectionMethod",([value]) => {
+        if(value === 0 ){
+          return yup.string().required()
+        }
+      }),
+      agreement:yup.boolean().test("test true","must agree t&c.",(val)=>{
+        return val
+      },)
+    }),
     onSubmit: () => {},
   });
 
@@ -207,7 +219,7 @@ export default function Detail() {
                     <CheckboxInput
                       label={
                         <p className="text-sm">
-                          I agree{" "}
+                          I agree
                           <span className="text-base text-[#00558C]">Terms & Conditions</span> and{" "}
                           <span className="text-base text-[#00558C]">Privacy Policy</span>
                         </p>
@@ -221,7 +233,8 @@ export default function Detail() {
 
                   <button
                     type="submit"
-                    className="w-full rounded-sm text-white bg-[#00558C] text-sm leading-[22px]"
+                    className={classNames("w-full rounded-sm text-white text-sm leading-[22px]",data.length < 1 ? "bg-gray-300":"bg-[#00558C] ")}
+                    disabled={data.length < 1}
                   >
                     Pay
                   </button>
@@ -351,12 +364,14 @@ export default function Detail() {
               <div>Please complete payment within 10 min.</div>
 
               <button
-                className="w-full bg-[#00558c] rounded-full text-white font-bold"
-                type="button"
+                className={classNames("w-full bg-[#00558c] rounded-full text-white font-bold",data.length < 1 ? "bg-gray-300":"bg-[#00558C]")}
+                type="submit"
                 onClick={() => {}}
+                disabled={data.length < 1}
               >
                 Pay
               </button>
+              
             </div>
           </form>
         </FormikProvider>

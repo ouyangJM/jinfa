@@ -343,7 +343,7 @@ export default function Home() {
                   buyReturnTrip();
                 }}
               >
-                Check out
+                Purchase return trip
               </button>
             </div>
           </div>
