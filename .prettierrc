@@ -2,7 +2,7 @@
   "tabWidth": 2,
   "arrowParens": "always",
   "bracketSpacing": true,
-  "endOfLine": "auto",
+  "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "css",
   "singleAttributePerLine": false,
   "bracketSameLine": false,
