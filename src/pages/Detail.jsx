@@ -213,7 +213,7 @@ export default function Detail() {
                   <div className="flex justify-between text-[#000] font-bold items-center">
                     <div className="text-2xl">Total:</div>
                     <div className="text-3xl">
-                      HK${totalPrice - 6 - discount > 0 ? totalPrice - 6 - discount : 0}
+                      HK${totalPrice - discount + 6 > 0 ? totalPrice - discount + 6 : 0}
                     </div>
                   </div>
 
@@ -359,7 +359,7 @@ export default function Detail() {
                 <div className="text-base font-bold">Total:</div>
                 <div className="text-3xl text-[#00558C] font-bold leading-10">
                   {" "}
-                  HK${totalPrice - 6 - discount > 0 ? totalPrice - 6 - discount : 0}
+                  HK${totalPrice - discount + 6> 0 ? totalPrice - discount + 6 : 0}
                 </div>
               </div>
               <CheckboxInput
