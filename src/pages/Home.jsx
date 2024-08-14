@@ -26,7 +26,7 @@ export default function Home() {
   });
 
   const [ticketList, setTicketList] = useState([]);
-  const fetchTicks = (newDate, newFlow = { from: "Hong Kong", to: "Macau" }, hour = "00:00:00") => {
+  const fetchTicks = (newDate, newFlow = { from: flow.from, to: flow.to }, hour = "00:00:00") => {
     const dateParams = `2024-${newDate.date} ${hour}`;
     const newFrom = newFlow.from;
     const newTo = newFlow.to;
@@ -239,7 +239,7 @@ export default function Home() {
 
             <div className="mt-5 text-white flex justify-between gap-x-5">
               <button
-                className="flex-1 bg-[#7fb7db]"
+                className="flex-1 bg-[#4190db]"
                 onClick={() => {
                   addToCart();
                 }}
@@ -322,7 +322,7 @@ export default function Home() {
             </div>
 
             <div className="bg-white py-3 px-5 flex justify-center flex-col gap-y-2">
-              <button
+              {/* <button
                 className={classNames(
                   "w-full rounded-full text-white font-bold",
                   !checkedList ? "bg-gray-400" : "bg-[#00558c]"
@@ -334,7 +334,7 @@ export default function Home() {
                 }}
               >
                 Add to Cart
-              </button>
+              </button> */}
               <button
                 className={classNames(
                   "w-full rounded-full text-white font-bold",
@@ -364,15 +364,23 @@ export default function Home() {
         {status === 1 && (
           <div className="flex-1 flex flex-col justify-between w-full bg-[#F4F8FB]">
             <div className="flex items-center justify-between bg-[#00558c] px-5 pt-6 pb-3">
-              <img src={Left} alt="left" onClick={() => {setStatus(0);setCheckedList(null);
-                setFlow({
-                  from: flow.to,
-                  fromTerminal: flow.toTerminal,
-                  to: flow.from,
-                  toTerminal: flow.fromTerminal,
-                })
-              }} />
+              <img
+                src={Left}
+                alt="left"
+                onClick={() => {
+                  setStatus(0);
+                  setCheckedList(null);
+                  setFlow({
+                    from: flow.to,
+                    fromTerminal: flow.toTerminal,
+                    to: flow.from,
+                    toTerminal: flow.fromTerminal,
+                  });
+                }}
+              />
+
               <div className="text-white font-bold">Return</div>
+
               <div
                 className="relative"
                 onClick={() => {
